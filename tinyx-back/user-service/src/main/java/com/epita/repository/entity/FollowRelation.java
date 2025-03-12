@@ -16,12 +16,12 @@ public class FollowRelation {
 
     @BsonId
     private UUID id;
-    public User follower;
-    public User followed;
+    public UUID followerId;
+    public UUID followedID;
 
-    public FollowRelation(User follower, User followed) {
-        this.follower = follower;
-        this.followed = followed;
+    public FollowRelation(UUID follower, UUID followed) {
+        this.followerId = follower;
+        this.followedID = followed;
         this.id = UUID.randomUUID();
     }
 }

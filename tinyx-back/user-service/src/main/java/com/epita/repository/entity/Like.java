@@ -17,20 +17,20 @@ public class Like {
      */
 
     private UUID id;
-    public User user;
+    public UUID userId;
     public UUID postId;
     public Timestamp created;
 
 
-    public Like(User user, final UUID postId) {
-        this.user = user;
+    public Like(UUID userId, final UUID postId) {
+        this.userId = userId;
         this.postId = postId;
         this.created = new Timestamp(System.currentTimeMillis());
         this.id = UUID.randomUUID();
     }
 
-    public Like(User user, UUID postId, Timestamp created) {
-        this.user = user;
+    public Like(UUID userId, UUID postId, Timestamp created) {
+        this.userId = userId;
         this.postId = postId;
         this.created = created;
         this.id = UUID.randomUUID();

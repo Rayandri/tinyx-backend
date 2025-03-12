@@ -16,12 +16,12 @@ public class BlockRelation {
 
     @BsonId
     private UUID id;
-    public User blocker;
-    public User blocked;
+    public UUID blockerId;
+    public UUID blockedId;
 
-    public BlockRelation(User blocker, User blocked) {
-        this.blocker = blocker;
-        this.blocked = blocked;
+    public BlockRelation(UUID blocker, UUID blocked) {
+        this.blockerId = blocker;
+        this.blockedId = blocked;
         this.id = UUID.randomUUID();
     }
 }
