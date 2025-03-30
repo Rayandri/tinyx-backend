@@ -32,6 +32,7 @@
     <modules>
         <module>post-service</module>
         <module>user-service</module>
+        <module>svc-auth</module>
     </modules>
 
     <dependencyManagement>
