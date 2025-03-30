@@ -71,6 +71,8 @@ public class HomeService {
         for (UUID follower : likes) {
             timelineRepository.newUpdate(follower, message.id);
         }
+
+
     }
 
     public void newUpdate(UserContract message) {
@@ -79,5 +81,8 @@ public class HomeService {
 
         // On recupere la liste de ses followers
         // On ajoute le post à la timeline de chaque follower
+
+
+        //TODO: juste a gerer le cas où il y a un nouveau follower.
     }
 }
