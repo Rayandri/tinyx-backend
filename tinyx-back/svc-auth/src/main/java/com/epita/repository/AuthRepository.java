@@ -1,8 +1,9 @@
 package com.epita.repository;
 
-import com.epita.repository.entity.UserContract;
+import com.epita.controller.contracts.UserContract;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -17,6 +18,7 @@ public class AuthRepository {
     }
 
     public void updateUser(UserContract user) {
+        user.updated_at = new Date();
         users.put(user.id, user);
     }
 

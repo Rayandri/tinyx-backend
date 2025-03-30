@@ -3,7 +3,6 @@ package com.epita.controller;
 import com.epita.controller.contracts.CreateUserRequest;
 import com.epita.controller.contracts.LoginRequest;
 import com.epita.controller.contracts.UpdatePasswordRequest;
-import com.epita.repository.entity.UserContract;
 import com.epita.service.AuthService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

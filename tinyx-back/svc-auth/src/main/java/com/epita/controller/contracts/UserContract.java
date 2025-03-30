@@ -1,4 +1,4 @@
-package com.epita.repository.entity;
+package com.epita.controller.contracts;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,8 +14,8 @@ import java.util.UUID;
 @Setter
 public class UserContract {
     public UUID id;
-    public String username = "ekaterina";
+    public String username;
     public String password_hash;
-    public Date created_at;
     public Date updated_at;
+    public Date created_at;
 }

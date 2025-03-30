@@ -33,6 +33,7 @@
         <module>post-service</module>
         <module>user-service</module>
         <module>svc-auth</module>
+        <module>srvc-home-timeline</module>
     </modules>
 
     <dependencyManagement>

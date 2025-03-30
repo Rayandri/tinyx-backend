@@ -1,7 +1,7 @@
 package com.epita.service;
 
 import com.epita.repository.AuthRepository;
-import com.epita.repository.entity.UserContract;
+import com.epita.controller.contracts.UserContract;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
