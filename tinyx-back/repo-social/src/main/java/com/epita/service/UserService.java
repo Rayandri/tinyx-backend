@@ -64,6 +64,10 @@ public class UserService {
         return Response.ok(likeRepository.findLikesByUserId(userId)).build();
     }
 
+    public Response getUserLikesByPost(UUID postId) {
+        return Response.ok(likeRepository.findLikesByPostId(postId)).build();
+    }
+
     public Response addLike(UUID userId, UUID postId) {
         likeRepository.addLike(userId, postId);
         return Response.ok().build();

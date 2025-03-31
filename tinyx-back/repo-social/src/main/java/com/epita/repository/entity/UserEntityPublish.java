@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserContract {
+public class UserEntityPublish {
+
     public enum UserAction {
         FOLLOW,
         UNFOLLOW,
@@ -31,5 +33,13 @@ public class UserContract {
     public Date updated_at;
     public Date created_at;
 
-    public UserAction user_action;
+    UserAction user_action;
+
+    // Handle following
+    public UserEntityPublish(UUID followingId, UUID followerId, UserAction userAction) {
+        this.id = followingId;
+        this.followers = new ArrayList<>();
+        this.followers.add(followingId);
+        this.user_action = userAction;
+    }
 }

@@ -49,28 +49,19 @@ public class UserService {
         return Response.ok(timeline).build();
     }
 
+    public void newUpdate(PostContract message) {
+
+    }
     public void newUpdate(UserContract user) {
-        // Cette fonction est appelée quand il y a un nouveau evenement sur un user (follow, etc)
-        // Normalement on doit recuperer tous les posts du nouveau utilisateur followed et les ajouter à la timeline de l'utilisateur qui a follow
-
-        // On recupere la liste de ses followers
-        // On ajoute le post à la timeline de chaque follower
-        //TODO: juste a gerer le cas où il y a un nouveau follower.
-        List<UUID> followers = user.followers;
-
-        for (UUID follower : followers) {
-            timelineRepository.newUpdate(follower, user.id);
+        if (user.user_action == UserContract.UserAction.FOLLOW)
+        {
+            if (user.followers.size() == 1) {
+                timelineRepository.subscribeToTimeline(user.followers.get(0));
+            }
+        } else if (user.user_action == UserContract.UserAction.UNFOLLOW) {
+            if (user.followers.size() == 1) {
+                timelineRepository.deleteTimeline(user.followers.get(0));
+            }
         }
-
-        List<UUID> likes = user.getLiked_tweets();
-        for (UUID follower : likes) {
-            timelineRepository.newUpdate(follower, user.id);
-        }
-
-        List<UUID> own_tweets = user.getOwn_tweets();
-        for (UUID follower : own_tweets) {
-            timelineRepository.newUpdate(follower, user.id);
-        }
-
     }
 }

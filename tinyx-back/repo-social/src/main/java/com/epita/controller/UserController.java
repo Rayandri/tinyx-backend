@@ -74,6 +74,14 @@ public class UserController {
         return userService.getUserLikes(userId);
     }
 
+    /// This endpoint returns the list of all likes by the user with the given id.
+    @GET
+    @Path("/user/post-likes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserLikesByPost(@HeaderParam("X-post-id") UUID postId) {
+        return userService.getUserLikesByPost(postId);
+    }
+
     /// This endpoint adds a new like by the user
     /// with the given userId to the user with the given likedPostId.
     @POST

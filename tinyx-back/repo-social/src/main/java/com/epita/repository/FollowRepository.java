@@ -1,15 +1,20 @@
 package com.epita.repository;
 
+import com.epita.controller.contracts.UserEntityPublish;
 import com.epita.repository.entity.FollowRelation;
 import com.epita.repository.entity.User;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
 public class FollowRepository implements PanacheMongoRepositoryBase<FollowRelation, UUID> {
+
+    @Inject
+    UserPublisher userPublisher;
 
     public FollowRelation findFollowById(UUID id) {
         return findById(id);
@@ -28,10 +33,12 @@ public class FollowRepository implements PanacheMongoRepositoryBase<FollowRelati
     }
 
     public void addFollow(FollowRelation follow) {
+        userPublisher.publish(new UserEntityPublish(follow.followedID, follow.followerId, UserEntityPublish.UserAction.FOLLOW));
         persist(follow);
     }
 
     public void removeFollow(UUID followerId, UUID followedId) {
+        userPublisher.publish(new UserEntityPublish(followedId, followerId, UserEntityPublish.UserAction.UNFOLLOW));
         delete(new FollowRelation(followerId, followedId));
     }
 }
