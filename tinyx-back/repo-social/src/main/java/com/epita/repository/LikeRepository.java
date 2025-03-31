@@ -4,6 +4,7 @@ import com.epita.repository.entity.Like;
 import com.epita.repository.entity.User;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.NotFoundException;
 import org.bson.Document;
 
 import java.util.List;
@@ -35,5 +36,14 @@ public class LikeRepository implements PanacheMongoRepositoryBase<Like, UUID> {
 
     public void addLike(Like like) {
         persist(like);
+    }
+
+    public void removeLike(UUID userId, UUID postId) throws NotFoundException {
+        try {
+            delete(new Like(userId, postId));
+        }
+        catch (Exception e) {
+            throw new NotFoundException();
+        }
     }
 }

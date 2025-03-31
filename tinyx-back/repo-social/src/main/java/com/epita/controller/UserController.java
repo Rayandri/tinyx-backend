@@ -156,10 +156,18 @@ public class UserController {
 
     /// This endpoint returns the list of all the users blocked by the user with the given userId.
     @GET
-    @Path("user/blocks")
+    @Path("user/blockers")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUserBlocks(@HeaderParam("X-user-id") UUID userId) {
-        return userService.getUserBlocks(userId);
+    public Response getUserBlockers(@HeaderParam("X-user-id") UUID userId) {
+        return userService.getUserBlockers(userId);
+    }
+
+    /// This endpoint returns the list of all the users who had block the user with the given userId.
+    @GET
+    @Path("user/blocked")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserBlocked(@HeaderParam("X-user-id") UUID userId) {
+        return userService.getUserBlocked(userId);
     }
 
     /// This endpoint adds a new block relation from the user

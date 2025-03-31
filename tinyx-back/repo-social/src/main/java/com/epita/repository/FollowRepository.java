@@ -30,4 +30,8 @@ public class FollowRepository implements PanacheMongoRepositoryBase<FollowRelati
     public void addFollow(FollowRelation follow) {
         persist(follow);
     }
+
+    public void removeFollow(UUID followerId, UUID followedId) {
+        delete(new FollowRelation(followerId, followedId));
+    }
 }

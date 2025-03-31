@@ -29,4 +29,8 @@ public class BlockRepository implements PanacheMongoRepositoryBase<BlockRelation
     public void addBlock(BlockRelation block) {
         persist(block);
     }
+
+    public void removeBlock(UUID userId, UUID blockId) {
+        delete(new BlockRelation(userId, blockId));
+    }
 }

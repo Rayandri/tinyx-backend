@@ -20,6 +20,15 @@ public class PostRepository {
         return new ArrayList<UUID>();
     }
 
+    public List<UUID> GetTimelineByUserId(UUID userId) {
+        // À faire par l'equipe DB :
+        // 1. Recuperer les posts de l'utilisateur
+        // 2. Recuperer les posts liké par l'utilisateur (faire attention au doublon quand user like son propre post)
+        // 3. Trier les posts par date
+        // 4. Retourner la liste des UUID des posts
+        return new ArrayList<>();
+    }
+
     public PostContract getPost(UUID post) {
         return posts.get(post);
     }

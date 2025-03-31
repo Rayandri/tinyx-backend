@@ -3,6 +3,7 @@ package com.epita.controller;
 import com.epita.controller.contracts.PostContract;
 import com.epita.controller.contracts.UserContract;
 import com.epita.service.HomeService;
+import com.epita.service.UserService;
 import io.quarkus.redis.datasource.RedisDataSource;
 import io.quarkus.redis.datasource.pubsub.PubSubCommands;
 import io.quarkus.runtime.Startup;
@@ -20,7 +21,7 @@ public class UserSubscriber implements Consumer<UserContract> {
     private final PubSubCommands.RedisSubscriber subscriber;
 
     @Inject
-    HomeService homeService;
+    UserService userService;
 
     public UserSubscriber(final RedisDataSource ds) {
         subscriber = ds.pubsub(UserContract.class)
@@ -29,7 +30,7 @@ public class UserSubscriber implements Consumer<UserContract> {
     @Override
     public void accept(final UserContract message) {
         vertx.executeBlocking(future-> {
-            homeService.newUpdate(message);
+            userService.newUpdate(message);
             future.complete();
         });
     }
