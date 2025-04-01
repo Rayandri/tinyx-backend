@@ -15,6 +15,17 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
+  <dependencies>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-mongodb-panache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-elasticsearch-java-client</artifactId>
+    </dependency>
+  </dependencies>
+
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
