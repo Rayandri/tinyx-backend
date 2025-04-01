@@ -13,6 +13,13 @@ import java.util.UUID;
 @Setter
 @MongoEntity(collection = "PostContents", database = "tinyX")
 public class PostContent {
+
+    /**
+     * This class holds the content of a post.
+     * This was done apart to make ElasticSearch implementation easier for you <3.
+     * We were not sure whether to include the post id in the fields. We figured you'd decide on that.
+     */
+
     @BsonId
     private UUID id;
     private String text;

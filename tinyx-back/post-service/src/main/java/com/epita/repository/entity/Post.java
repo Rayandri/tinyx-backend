@@ -12,6 +12,10 @@ import java.util.UUID;
 @Getter
 @MongoEntity(collection = "Posts", database = "tinyX")
 public class Post {
+    /**
+     * This class holds all the information about a post.
+     * Note that the content of the post is stored in a separate collection to ease logistics.
+     */
 
     @BsonId
     private final UUID id;

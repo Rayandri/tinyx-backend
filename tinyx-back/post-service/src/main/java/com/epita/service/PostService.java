@@ -85,14 +85,14 @@ public class PostService {
         publisher.publish(postContract);
 
         //Check reply message exists
-        if (postRepository.findPostById(content.repyTo) == null) {
+        if (postRepository.findPostById(content.replyTo) == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Reply message not found").build();
         }
 
         // Check if the post content is valid
         PostContent postContent = new PostContent(content.getContent(), content.getMedia(),content.getRepost());
         try {
-            postRepository.addPost(userId, postContent, content.repyTo);
+            postRepository.addPost(userId, postContent, content.replyTo);
         }
         catch(IllegalArgumentException e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();

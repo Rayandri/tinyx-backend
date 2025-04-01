@@ -13,7 +13,7 @@ public class PostContentContract {
     public String content;
     public String media;
     public UUID repost;
-    public UUID repyTo;
+    public UUID replyTo;
 
     public PostContentContract() {
     }
