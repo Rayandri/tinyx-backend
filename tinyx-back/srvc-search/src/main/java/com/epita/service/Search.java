@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/api/search")
 @ApplicationScoped
-public class search {
+public class Search {
 
     @GET
     @Path("/user")
