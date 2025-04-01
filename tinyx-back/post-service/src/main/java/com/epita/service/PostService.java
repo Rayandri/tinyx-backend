@@ -1,4 +1,4 @@
-package main.java.com.epita.service;
+package com.epita.service;
 
 public class PostService {
 }

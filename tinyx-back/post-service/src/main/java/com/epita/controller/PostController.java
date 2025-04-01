@@ -1,4 +1,4 @@
-package main.java.com.epita.controller;
+package com.epita.controller;
 
 public class PostController {
 }

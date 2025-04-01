@@ -1,4 +1,4 @@
-package main.java.com.epita.repository;
+package com.epita.repository;
 
 public class PostRepository {
 }
