@@ -1,7 +1,6 @@
-package com.epita.repository;
+package com.epita.entity;
 
 import com.epita.controller.contracts.PostContract;
-import com.epita.controller.contracts.UserContract;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.*;

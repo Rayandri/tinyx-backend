@@ -1,9 +1,8 @@
-package com.epita.repository;
+package com.epita.entity;
 
-import com.epita.repository.entity.User;
+import com.epita.entity.entity.User;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
-import org.bson.Document;
 
 import java.util.List;
 import java.util.UUID;

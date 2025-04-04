@@ -1,9 +1,9 @@
 package com.epita.service;
 
-import com.epita.repository.BlockRepository;
-import com.epita.repository.FollowRepository;
-import com.epita.repository.LikeRepository;
-import com.epita.repository.UserRepository;
+import com.epita.entity.BlockRepository;
+import com.epita.entity.FollowRepository;
+import com.epita.entity.LikeRepository;
+import com.epita.entity.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;

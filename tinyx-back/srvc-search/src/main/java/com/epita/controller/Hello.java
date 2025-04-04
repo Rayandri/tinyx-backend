@@ -1,4 +1,4 @@
-package com.epita.service;
+package com.epita.controller;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.GET;

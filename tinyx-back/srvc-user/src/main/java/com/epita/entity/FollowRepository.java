@@ -1,7 +1,6 @@
-package com.epita.repository;
+package com.epita.entity;
 
-import com.epita.repository.entity.FollowRelation;
-import com.epita.repository.entity.User;
+import com.epita.entity.entity.FollowRelation;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 

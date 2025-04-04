@@ -17,6 +17,10 @@
 
   <dependencies>
     <dependency>
+      <groupId>co.elastic.clients</groupId>
+      <artifactId>elasticsearch-java</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-mongodb-panache</artifactId>
     </dependency>

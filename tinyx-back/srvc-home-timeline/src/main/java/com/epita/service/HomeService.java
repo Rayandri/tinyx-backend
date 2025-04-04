@@ -1,17 +1,14 @@
 package com.epita.service;
 
 import com.epita.controller.contracts.PostContract;
-import com.epita.repository.PostRepository;
-import com.epita.repository.TimelineRepository;
-import com.epita.repository.UserRepository;
+import com.epita.entity.PostRepository;
+import com.epita.entity.TimelineRepository;
+import com.epita.entity.UserRepository;
 import com.epita.controller.contracts.UserContract;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import org.jboss.logging.Logger;

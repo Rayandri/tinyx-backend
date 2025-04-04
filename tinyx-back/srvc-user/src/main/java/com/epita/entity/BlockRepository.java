@@ -1,6 +1,6 @@
-package com.epita.repository;
+package com.epita.entity;
 
-import com.epita.repository.entity.BlockRelation;
+import com.epita.entity.entity.BlockRelation;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 
