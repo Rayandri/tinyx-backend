@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
-@MongoEntity(collection = "user")
+
+@MongoEntity(collection = "users")
 public class UserEntity extends PanacheMongoEntity {
     @Getter
     @Setter

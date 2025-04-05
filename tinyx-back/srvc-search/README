@@ -1,0 +1,28 @@
+SRVC-SEARCH endpoint tutorial:
+
+/api/search/user/{regex}
+
+this endpoint will search for all user matching the {regex}
+
+result:
+ResponseBody:
+[
+    {
+        UUID: id, // id of the user
+        STRING: name // name of the user
+    }
+]
+
+/api/search/user/posts/{id}
+
+this endpoint will search for all the posts made by the users "id"
+
+result:
+ResponseBody:
+[
+    {
+        UUID : userId, //id of the author
+        String: content, //content of the post
+        String: image //optional image add to the post
+    }
+]
