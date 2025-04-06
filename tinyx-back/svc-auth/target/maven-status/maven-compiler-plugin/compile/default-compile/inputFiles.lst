@@ -1,0 +1,7 @@
+/home/alex/afs/Master/info8/info8/tinyx-backend/tinyx-back/svc-auth/src/main/java/com/epita/controller/contracts/CreateUserRequest.java
+/home/alex/afs/Master/info8/info8/tinyx-backend/tinyx-back/svc-auth/src/main/java/com/epita/service/AuthService.java
+/home/alex/afs/Master/info8/info8/tinyx-backend/tinyx-back/svc-auth/src/main/java/com/epita/controller/contracts/UpdatePasswordRequest.java
+/home/alex/afs/Master/info8/info8/tinyx-backend/tinyx-back/svc-auth/src/main/java/com/epita/controller/UserController.java
+/home/alex/afs/Master/info8/info8/tinyx-backend/tinyx-back/svc-auth/src/main/java/com/epita/controller/contracts/UserContract.java
+/home/alex/afs/Master/info8/info8/tinyx-backend/tinyx-back/svc-auth/src/main/java/com/epita/repository/AuthRepository.java
+/home/alex/afs/Master/info8/info8/tinyx-backend/tinyx-back/svc-auth/src/main/java/com/epita/controller/contracts/LoginRequest.java
