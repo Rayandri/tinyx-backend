@@ -7,20 +7,30 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+<<<<<<< HEAD
         <module name="repo-post" />
         <module name="svc-auth" />
         <module name="user-service" />
+=======
+        <module name="post-service" />
+        <module name="svc-auth" />
+        <module name="repo-social" />
+>>>>>>> origin/back-team3
         <module name="srvc-home-timeline" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+<<<<<<< HEAD
       <module name="repo-post" options="-parameters" />
+=======
+      <module name="post-service" options="-parameters" />
+      <module name="repo-social" options="-parameters" />
+>>>>>>> origin/back-team3
       <module name="srvc-home-timeline" options="-parameters" />
       <module name="svc-auth" options="-parameters" />
       <module name="tinyx-back" options="-parameters" />
-      <module name="user-service" options="-parameters" />
     </option>
   </component>
 </project>

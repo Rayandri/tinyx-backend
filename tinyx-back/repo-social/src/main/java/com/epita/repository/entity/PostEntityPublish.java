@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PostContract {
+public class PostEntityPublish {
 
     public enum PostAction {
         CREATE,
@@ -33,4 +34,10 @@ public class PostContract {
     public Date created_at;
 
     public PostAction action;
+    // For like / unlike
+    public PostEntityPublish(UUID userId, PostAction action, UUID postId) {
+        this.id = userId;
+        this.author = postId;
+        this.action = action;
+    }
 }

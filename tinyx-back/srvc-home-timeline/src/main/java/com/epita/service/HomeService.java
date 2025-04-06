@@ -27,8 +27,7 @@ public class HomeService {
 
 
     public Response getTimeline(UUID userId) {
-        // fetch les posts de ses followers
-        // fetch les posts liké par ses followers
+        // fetch les posts du User
 
         // on fait la liste de toute la TL
         // on trie par date
@@ -68,18 +67,15 @@ public class HomeService {
         for (UUID follower : likes) {
             timelineRepository.newUpdate(follower, message.id);
         }
-
-
     }
 
-    public void newUpdate(UserContract message) {
+    public void newUpdate(UserContract user) {
         // Cette fonction est appelée quand il y a un nouveau evenement sur un user (follow, etc)
         // Normalement on doit recuperer tous les posts du nouveau utilisateur followed et les ajouter à la timeline de l'utilisateur qui a follow
 
         // On recupere la liste de ses followers
         // On ajoute le post à la timeline de chaque follower
-
-
         //TODO: juste a gerer le cas où il y a un nouveau follower.
+
     }
 }

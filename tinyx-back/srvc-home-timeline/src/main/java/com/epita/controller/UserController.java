@@ -4,6 +4,7 @@ import com.epita.controller.contracts.CreateUserRequest;
 import com.epita.controller.contracts.LoginRequest;
 import com.epita.controller.contracts.UpdatePasswordRequest;
 import com.epita.service.HomeService;
+import com.epita.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -20,6 +21,9 @@ public class UserController {
     @Inject
     HomeService homeService;
 
+    @Inject
+    UserService userService;
+
     @GET
     @Path("/home")
     public Response getTimeline(@HeaderParam("X-user-id") UUID id) {
@@ -32,5 +36,11 @@ public class UserController {
 
         return homeService.getUpdateOfTheTimeLine(id);
 
+    }
+
+    @GET
+    @Path("/user/posts")
+    public Response getUserPosts(@HeaderParam("X-user-id") UUID id) {
+        return userService.getTimeline(id);
     }
 }

@@ -21,11 +21,13 @@
     <lombok.version>1.18.28</lombok.version>
   </properties>
   <modules>
-    <module>srvc-post</module>
-    <module>srvc-user</module>
-    <module>srvc-auth</module>
-    <module>srvc-home-timeline</module>
-    <module>srvc-search</module>
+      <module>repo-post</module>
+      <module>repo-social</module>
+      <module>srvc-auth</module>
+      <module>srvc-home-timeline</module>
+      <module>srvc-post</module>
+      <module>srvc-search</module>
+      <module>srvc-user</module>
   </modules>
   <dependencyManagement>
     <dependencies>
