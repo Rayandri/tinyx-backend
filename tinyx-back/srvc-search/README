@@ -1,6 +1,6 @@
 SRVC-SEARCH endpoint tutorial:
 
-/api/search/user/{regex}
+/api/search/user/name/{regex}
 
 this endpoint will search for all user matching the {regex}
 

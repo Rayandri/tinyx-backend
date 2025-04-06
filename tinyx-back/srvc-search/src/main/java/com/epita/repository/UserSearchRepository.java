@@ -1,18 +1,20 @@
-package com.epita.domain.service;
+package com.epita.repository;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
-import com.epita.domain.entity.PostEntity;
-import com.epita.domain.entity.UserEntity;
-import jakarta.inject.Inject;
+import com.epita.repository.entity.PostEntity;
+import com.epita.repository.entity.UserEntity;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-
-public class UserService {
+@ApplicationScoped
+public class UserSearchRepository {
     @Inject
     ElasticsearchClient elasticsearchClient;
 
@@ -39,7 +41,6 @@ public class UserService {
         } catch (Exception e) {
             return Collections.emptyList();
         }
-
     }
 
     public List<PostEntity> aggregatePosts(UUID id) {
@@ -53,6 +54,7 @@ public class UserService {
                             )
                     )
             );
+
 
             SearchResponse<PostEntity> response = elasticsearchClient.search(searchRequest, PostEntity.class);
             return response.hits()
