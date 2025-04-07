@@ -1,7 +1,7 @@
-/home/gimi/ING2/mini-twitter/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/contracts/UserContract.java
-/home/gimi/ING2/mini-twitter/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/contracts/CreateUserRequest.java
-/home/gimi/ING2/mini-twitter/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/contracts/UpdatePasswordRequest.java
-/home/gimi/ING2/mini-twitter/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/entity/AuthRepository.java
-/home/gimi/ING2/mini-twitter/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/service/AuthService.java
-/home/gimi/ING2/mini-twitter/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/contracts/LoginRequest.java
-/home/gimi/ING2/mini-twitter/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/UserController.java
+/home/maell/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/contracts/UpdatePasswordRequest.java
+/home/maell/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/UserController.java
+/home/maell/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/contracts/CreateUserRequest.java
+/home/maell/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/contracts/UserContract.java
+/home/maell/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/controller/contracts/LoginRequest.java
+/home/maell/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/entity/AuthRepository.java
+/home/maell/tinyx-backend/tinyx-back/srvc-auth/src/main/java/com/epita/service/AuthService.java
