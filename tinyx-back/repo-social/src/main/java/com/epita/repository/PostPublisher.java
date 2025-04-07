@@ -5,8 +5,10 @@ import io.quarkus.redis.datasource.RedisDataSource;
 import jakarta.enterprise.context.ApplicationScoped;
 import io.quarkus.redis.datasource.pubsub.PubSubCommands;
 import jakarta.inject.Inject;
+import io.quarkus.runtime.Startup;
 
 @ApplicationScoped
+@Startup
 public class PostPublisher {
     private final PubSubCommands<PostEntityPublish> publisher;
 
