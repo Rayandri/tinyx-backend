@@ -1,4 +1,4 @@
-package com.epita.entity.entity;
+package com.epita.repository.entity;
 
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import org.bson.codecs.pojo.annotations.BsonId;

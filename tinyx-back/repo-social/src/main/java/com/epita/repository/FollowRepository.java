@@ -1,12 +1,9 @@
-package com.epita.entity;
+package com.epita.repository;
 
-<<<<<<<< HEAD:tinyx-back/srvc-user/src/main/java/com/epita/entity/FollowRepository.java
-import com.epita.entity.entity.FollowRelation;
-========
-import com.epita.controller.contracts.UserEntityPublish;
+import com.epita.repository.entity.FollowRelation;
 import com.epita.repository.entity.FollowRelation;
 import com.epita.repository.entity.User;
->>>>>>>> origin/back-team3:tinyx-back/repo-social/src/main/java/com/epita/repository/FollowRepository.java
+import com.epita.repository.entity.UserEntityPublish;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

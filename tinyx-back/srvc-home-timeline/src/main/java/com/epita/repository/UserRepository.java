@@ -1,4 +1,4 @@
-package com.epita.entity;
+package com.epita.repository;
 
 import com.epita.controller.contracts.UserContract;
 import jakarta.enterprise.context.ApplicationScoped;

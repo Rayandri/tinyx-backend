@@ -11,15 +11,7 @@
     </parent>
 
     <groupId>groupId</groupId>
-<<<<<<<< HEAD:tinyx-back/srvc-user/pom.xml
-<<<<<<<< HEAD:tinyx-back/srvc-user/pom.xml
-    <artifactId>srvc-user</artifactId>
-========
-    <artifactId>repo-post</artifactId>
->>>>>>>> origin/post:tinyx-back/repo-post/pom.xml
-========
     <artifactId>repo-social</artifactId>
->>>>>>>> origin/back-team3:tinyx-back/repo-social/pom.xml
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 

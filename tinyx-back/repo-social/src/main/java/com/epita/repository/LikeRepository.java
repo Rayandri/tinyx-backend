@@ -1,17 +1,14 @@
-package com.epita.entity;
+package com.epita.repository;
 
-<<<<<<<< HEAD:tinyx-back/srvc-user/src/main/java/com/epita/entity/LikeRepository.java
-import com.epita.entity.entity.Like;
+import com.epita.repository.entity.Like;
+import com.epita.repository.entity.PostEntityPublish;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
-========
-import com.epita.controller.contracts.PostEntityPublish;
 import com.epita.repository.entity.Like;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
->>>>>>>> origin/back-team3:tinyx-back/repo-social/src/main/java/com/epita/repository/LikeRepository.java
 
 import java.util.List;
 import java.util.UUID;

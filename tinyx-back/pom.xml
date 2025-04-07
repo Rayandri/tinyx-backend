@@ -25,9 +25,7 @@
       <module>repo-social</module>
       <module>srvc-auth</module>
       <module>srvc-home-timeline</module>
-      <module>srvc-post</module>
       <module>srvc-search</module>
-      <module>srvc-user</module>
   </modules>
   <dependencyManagement>
     <dependencies>

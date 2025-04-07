@@ -1,6 +1,6 @@
 package com.epita.repository;
 
-import com.epita.controller.contracts.UserEntityPublish;
+import com.epita.repository.entity.UserEntityPublish;
 import io.quarkus.redis.datasource.RedisDataSource;
 import jakarta.enterprise.context.ApplicationScoped;
 import io.quarkus.redis.datasource.pubsub.PubSubCommands;
