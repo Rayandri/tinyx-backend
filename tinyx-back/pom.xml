@@ -18,13 +18,14 @@
     <surefire-plugin.version>3.0.0</surefire-plugin.version>
     <skipITs>true</skipITs>
     <quarkus-neo4j.version>3.0.3</quarkus-neo4j.version>
-    <lombok.version>1.18.28</lombok.version>
+    <lombok.version>1.18.30</lombok.version>
   </properties>
   <modules>
       <module>repo-post</module>
       <module>repo-social</module>
       <module>srvc-auth</module>
       <module>srvc-home-timeline</module>
+      <module>srvc-user-timeline</module>
       <module>srvc-search</module>
   </modules>
   <dependencyManagement>
@@ -48,10 +49,8 @@
       <artifactId>quarkus-smallrye-openapi</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>${lombok.version}</version>
-      <scope>provided</scope>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-mongodb-panache</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -59,17 +58,19 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-redis-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-mongodb-panache</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-redis-client</artifactId>
     </dependency>
   </dependencies>
   <build>

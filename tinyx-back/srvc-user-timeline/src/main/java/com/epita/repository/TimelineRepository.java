@@ -5,32 +5,20 @@ import com.epita.repository.entity.TimelineEntry;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
+import static io.quarkus.mongodb.panache.PanacheMongoEntityBase.findByIdOptional;
 
 @ApplicationScoped
 public class TimelineRepository implements PanacheMongoRepositoryBase<Timeline, UUID> {
 
-
-    public Timeline findByUserId(UUID userId) {
-
-        Optional<Timeline> optionalTimeline = findByIdOptional(userId);
-        Timeline timeline = optionalTimeline.orElseGet(() -> {
-            Timeline newTimeline = new Timeline();
-            newTimeline.userId = userId;
-            newTimeline.id = userId;
-            return newTimeline;
-        });
-
-        persist(timeline);
-
-        return timeline;
+    public Optional<Timeline> findByUserId(UUID userId) {
+        return findByIdOptional(userId);
     }
 
     public void addOrUpdateTimelineEntry(Timeline timeline, UUID postId, Date timestamp) {
-        boolean exists = timeline.getEntries().stream().anyMatch(entry -> entry.getPostId().equals(postId));
+        boolean exists = timeline.getEntries().stream()
+                .anyMatch(entry -> entry.getPostId().equals(postId));
         if (!exists) {
             timeline.getEntries().add(new TimelineEntry(postId, timestamp));
         }
@@ -43,4 +31,7 @@ public class TimelineRepository implements PanacheMongoRepositoryBase<Timeline, 
         persistOrUpdate(timeline);
     }
 
+    public void saveTimeline(Timeline timeline) {
+        persist(timeline);
+    }
 }

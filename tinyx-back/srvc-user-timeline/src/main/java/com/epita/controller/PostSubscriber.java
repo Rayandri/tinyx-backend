@@ -1,7 +1,7 @@
 package com.epita.controller;
 
-import com.epita.controller.contracts.UserContract;
-import com.epita.service.UserService;
+import com.epita.controller.contracts.PostContract;
+import com.epita.service.UserTimelineService;
 import io.quarkus.redis.datasource.RedisDataSource;
 import io.quarkus.redis.datasource.pubsub.PubSubCommands;
 import io.quarkus.runtime.Startup;
@@ -15,20 +15,20 @@ import static io.quarkus.mongodb.runtime.dns.MongoDnsClientProvider.vertx;
 
 @Startup
 @ApplicationScoped
-public class UserSubscriber implements Consumer<UserContract> {
+public class PostSubscriber implements Consumer<PostContract> {
     private final PubSubCommands.RedisSubscriber subscriber;
 
     @Inject
-    UserService userService;
+    UserTimelineService homeService;
 
-    public UserSubscriber(final RedisDataSource ds) {
-        subscriber = ds.pubsub(UserContract.class)
-                .subscribe("users", this);
+    public PostSubscriber(final RedisDataSource ds) {
+        subscriber = ds.pubsub(PostContract.class)
+                .subscribe("posts", this);
     }
     @Override
-    public void accept(final UserContract message) {
+    public void accept(final PostContract message) {
         vertx.executeBlocking(future-> {
-            userService.newUpdate(message);
+            homeService.newUpdate(message);
             future.complete();
         });
     }

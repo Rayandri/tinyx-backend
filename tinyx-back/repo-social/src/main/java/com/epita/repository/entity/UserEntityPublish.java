@@ -39,7 +39,7 @@ public class UserEntityPublish {
     public UserEntityPublish(UUID followingId, UUID followerId, UserAction userAction) {
         this.id = followingId;
         this.followers = new ArrayList<>();
-        this.followers.add(followingId);
+        this.followers.add(followerId);
         this.user_action = userAction;
     }
 }

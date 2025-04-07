@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -31,5 +32,5 @@ public class UserContract {
     public Date updated_at;
     public Date created_at;
 
-    public UserAction user_action;
+    UserAction user_action;
 }

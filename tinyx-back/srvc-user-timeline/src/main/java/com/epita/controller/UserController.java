@@ -1,13 +1,11 @@
 package com.epita.controller;
 
 import com.epita.repository.entity.Timeline;
-import com.epita.service.UserService;
-import io.vertx.ext.auth.User;
+import com.epita.service.UserTimelineService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,16 +18,16 @@ import java.util.UUID;
 public class UserController {
 
     @Inject
-    UserService userService;
+    UserTimelineService userService;
 
     @GET
-    @Path("/home")
+    @Path("/user")
     public Timeline getFullTimeline(@HeaderParam("X-user-id") UUID userId) {
-        return userService.getHomeTimeline(userId);
+        return userService.getUserTimeline(userId);
     }
 
     @GET
-    @Path("/home/page")
+    @Path("/user/page")
     public Timeline getPaginatedTimeline(
             @HeaderParam("X-user-id") UUID userId,
             @QueryParam("page") @DefaultValue("0") int page,
@@ -39,7 +37,7 @@ public class UserController {
 
         Date fromDate = parseDate(fromDateStr);
         Date toDate = parseDate(toDateStr);
-        return userService.getHomeTimeline(userId, page, size, fromDate, toDate);
+        return userService.getUserTimeline(userId, page, size, fromDate, toDate);
     }
 
     private Date parseDate(String dateStr) {
@@ -49,7 +47,7 @@ public class UserController {
         try {
             return new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
         } catch (ParseException e) {
-            throw new BadRequestException("Date invalide. Use this format yyyy-MM-dd.");
+            throw new BadRequestException("Date invalide. Utilisez le format yyyy-MM-dd.");
         }
     }
 }
