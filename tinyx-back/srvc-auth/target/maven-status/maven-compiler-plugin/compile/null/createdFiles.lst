@@ -1,0 +1,7 @@
+com/epita/controller/contracts/UpdatePasswordRequest.class
+com/epita/controller/contracts/LoginRequest.class
+com/epita/service/AuthService.class
+com/epita/controller/UserController.class
+com/epita/entity/AuthRepository.class
+com/epita/controller/contracts/UserContract.class
+com/epita/controller/contracts/CreateUserRequest.class
