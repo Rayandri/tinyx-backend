@@ -10,6 +10,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
+import lombok.Getter;
+
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
 import java.util.UUID;
@@ -50,8 +52,16 @@ public class SearchController {
         /*
         * save a post in the post table
         * */
-
         return postSearchService.savePost(postEntity);
+    }
+
+    @GET
+    @Path("/posts/delete/{id}")
+    public Response deletePost(@PathParam("id") UUID id){
+        /*
+         * delete in the db the posts
+        */
+        return postSearchService.deletePost(id);
     }
 
     //------------------- User Search -------------------
