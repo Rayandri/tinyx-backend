@@ -1,7 +1,8 @@
 C:\Users\alias\Desktop\EPITA\ing2\tinyx-backend\tinyx-back\srvc-auth\src\main\java\com\epita\controller\contracts\UserContract.java
+C:\Users\alias\Desktop\EPITA\ing2\tinyx-backend\tinyx-back\srvc-auth\src\main\java\com\epita\repository\entity\UserEntity.java
 C:\Users\alias\Desktop\EPITA\ing2\tinyx-backend\tinyx-back\srvc-auth\src\main\java\com\epita\controller\contracts\CreateUserRequest.java
 C:\Users\alias\Desktop\EPITA\ing2\tinyx-backend\tinyx-back\srvc-auth\src\main\java\com\epita\controller\UserController.java
-C:\Users\alias\Desktop\EPITA\ing2\tinyx-backend\tinyx-back\srvc-auth\src\main\java\com\epita\entity\AuthRepository.java
 C:\Users\alias\Desktop\EPITA\ing2\tinyx-backend\tinyx-back\srvc-auth\src\main\java\com\epita\controller\contracts\LoginRequest.java
+C:\Users\alias\Desktop\EPITA\ing2\tinyx-backend\tinyx-back\srvc-auth\src\main\java\com\epita\repository\AuthRepository.java
 C:\Users\alias\Desktop\EPITA\ing2\tinyx-backend\tinyx-back\srvc-auth\src\main\java\com\epita\service\AuthService.java
 C:\Users\alias\Desktop\EPITA\ing2\tinyx-backend\tinyx-back\srvc-auth\src\main\java\com\epita\controller\contracts\UpdatePasswordRequest.java

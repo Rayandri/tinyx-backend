@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@MongoEntity(collection = "Users", database = "tinyX")
+@MongoEntity(collection = "Users")
 public class UserEntity {
 
     @BsonId
