@@ -10,7 +10,6 @@ import jakarta.ws.rs.core.Response;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 import org.jboss.logging.Logger;
@@ -29,7 +28,7 @@ public class AuthService {
             LOGGER.warnf("[AUTH] Create User : Failure : The user %s already exists", username);
             return Response.status(Response.Status.CONFLICT).build();
         }
-        UserEntity user = new UserEntity(username, hashPassword(password), new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime()));
+        UserEntity user = new UserEntity(username, hashPassword(password), new Date(), new Date());
         authRepository.createUser(user);
         LOGGER.infof("[AUTH] Create User : User created with success : %s", username);
         return Response.ok(user).build();
@@ -42,7 +41,7 @@ public class AuthService {
             LOGGER.warnf("[AUTH] Login : Failure : User %s not found or wrong password", username);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        UserContract userContract = new UserContract(user.getId(), user.username, user.password, user.created, user.updated);
+        UserContract userContract = new UserContract(user.getId(), user.username, user.password_hash, user.created_at, user.updated_at);
         LOGGER.infof("[AUTH] Login : Connection successful for user : %s", username);
         return Response.ok(userContract).build();
     }
@@ -54,7 +53,7 @@ public class AuthService {
             LOGGER.warnf("[AUTH] Password update : USER (%s) NOT FOUND", id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        user.password = hashPassword(password);
+        user.password_hash = hashPassword(password);
         authRepository.updateUser(user);
         LOGGER.infof("[AUTH] Password updated for : %s", id);
         return Response.ok().build();

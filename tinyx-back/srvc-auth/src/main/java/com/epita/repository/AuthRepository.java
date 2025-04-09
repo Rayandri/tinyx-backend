@@ -13,7 +13,7 @@ import java.util.UUID;
 @ApplicationScoped
 public class AuthRepository implements PanacheMongoRepositoryBase<UserEntity, UUID> {
 
-    Map<UUID, UserContract> users = new HashMap<UUID, UserContract>();
+
 
     public void createUser(UserEntity user) {
         persist(user);
@@ -27,8 +27,8 @@ public class AuthRepository implements PanacheMongoRepositoryBase<UserEntity, UU
         return findById(id);
     }
 
-    public UserEntity getUserByUsernameAndHashPassword(String username, String hash_password) {
-        return find("username", username, "password", hash_password).firstResult();
+    public UserEntity getUserByUsernameAndHashPassword(String username, String password_hash) {
+        return find("username", username, "password_hash", password_hash).firstResult();
     }
 
     public void deleteUser(UUID id) {
@@ -36,11 +36,6 @@ public class AuthRepository implements PanacheMongoRepositoryBase<UserEntity, UU
     }
 
     public boolean userExists(String username) {
-        for (UserContract user : users.values()) {
-            if (user.username.equals(username)) {
-                return true;
-            }
-        }
-        return false;
+        return find("username", username).firstResult() != null;
     }
 }

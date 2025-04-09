@@ -2,31 +2,32 @@ package com.epita.repository.entity;
 
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.codecs.pojo.annotations.BsonId;
 
-import java.sql.Timestamp;
+
+
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
 @Setter
-@MongoEntity(collection = "Users", database = "tinyX") //??
+@MongoEntity(collection = "Users", database = "tinyX")
 public class UserEntity {
 
     @BsonId
     private final UUID id;
     public String username;
-    public String password;
-    public Timestamp created;
-    public Timestamp updated;
+    public String password_hash;
+    public Date created_at;
+    public Date updated_at;
 
 
-    public UserEntity(String name,String password, Timestamp created, Timestamp updated) {
+    public UserEntity(String name,String password_hash, Date created_at, Date updated_at) {
         this.username = name;
         this.id = UUID.randomUUID();
-        this.password = password;
-        this.updated = updated;
-        this.created = created;
+        this.password_hash = password_hash;
+        this.updated_at = updated_at;
+        this.created_at = created_at;
     }
 }
