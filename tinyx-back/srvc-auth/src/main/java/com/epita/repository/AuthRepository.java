@@ -1,0 +1,46 @@
+package com.epita.repository;
+
+import com.epita.controller.contracts.UserContract;
+import com.epita.repository.entity.UserEntity;
+import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+@ApplicationScoped
+public class AuthRepository implements PanacheMongoRepositoryBase<UserEntity, UUID> {
+
+    Map<UUID, UserContract> users = new HashMap<UUID, UserContract>();
+
+    public void createUser(UserEntity user) {
+        persist(user);
+    }
+
+    public void updateUser(UserEntity user) {
+        update(user);
+    }
+
+    public UserEntity getUser(UUID id) {
+        return findById(id);
+    }
+
+    public UserEntity getUserByUsernameAndHashPassword(String username, String hash_password) {
+        return find("username", username, "password", hash_password).firstResult();
+    }
+
+    public void deleteUser(UUID id) {
+       deleteById(id);
+    }
+
+    public boolean userExists(String username) {
+        for (UserContract user : users.values()) {
+            if (user.username.equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
