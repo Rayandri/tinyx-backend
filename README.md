@@ -53,5 +53,12 @@ NEO4J_URI=bolt://localhost:7687
 REDIS_URI=redis://localhost:6379
 ```
 
+4. SWAGGER UI
+- [Post Service (8081)](http://localhost:8081/q/swagger-ui)
+- [Social Service (8082)](http://localhost:8082/q/swagger-ui)
+- [Auth Service (8083)](http://localhost:8083/q/swagger-ui)
+- [User Timeline Service (8084)](http://localhost:8084/q/swagger-ui)
+- [Search Service (8085)](http://localhost:8085/q/swagger-ui)
+
 ## 📜 License
 MIT License
