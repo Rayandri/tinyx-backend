@@ -13,22 +13,23 @@ class TestPostController(unittest.TestCase):
 
     def test_get_posts(self, status_code: int=200):
         response = requests.get(f"{self.BASE_URL}/all")
-        self.assertEqual(response.status_code, status_code)
-        self.assertIsInstance(response.json(), list)
+        self.assertEqual(status_code, response.status_code)
+        if status_code != 404 and status_code != 400 and status_code != 500:
+            self.assertIsInstance(response.json(), list)
 
     def test_get_user_posts(self, user_id: uuid=uuid.uuid4(), status_code: int=200):
         response = requests.get(f"{self.BASE_URL}/user", params={"id": user_id})
-        self.assertEqual(response.status_code, status_code)
+        self.assertEqual(status_code, response.status_code)
         self.assertIsInstance(response.json(), list)
 
     def test_get_post(self, post_id: uuid=uuid.uuid4(), status_code: int=200):
         response = requests.get(f"{self.BASE_URL}", params={"id": post_id})
-        self.assertEqual(response.status_code, status_code)
+        self.assertEqual(status_code, response.status_code)
         self.assertIsInstance(response.json(), dict)
 
     def test_get_reply(self, post_id: uuid=uuid.uuid4(), status_code: int=200):
         response = requests.get(f"{self.BASE_URL}/reply", params={"id": post_id})
-        self.assertEqual(response.status_code, status_code)
+        self.assertEqual(status_code, response.status_code)
         self.assertIsInstance(response.json(), dict)
 
     def test_add_post(self, user_id, content: str="This is a test post", media: list=[], repost: uuid=uuid.uuid4(), replyTo: uuid=uuid.uuid4(), status_code=200):
@@ -39,11 +40,11 @@ class TestPostController(unittest.TestCase):
             "replyTo": replyTo
         }
         response = requests.post(f"{self.BASE_URL}", headers={"X-user-id": user_id}, json=post_content)
-        self.assertEqual(response.status_code, status_code)
+        self.assertEqual(status_code, response.status_code)
 
     def test_delete_post(self, user_id: uuid=uuid.uuid4(), post_id: uuid=uuid.uuid4(), status_code=200):
         response = requests.delete(f"{self.BASE_URL}", headers={"X-user-id": user_id}, json={"id": post_id})
-        self.assertEqual(response.status_code, status_code)
+        self.assertEqual(status_code, response.status_code)
 
 if __name__ == "__main__":
     unittest.main()

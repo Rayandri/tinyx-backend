@@ -8,15 +8,15 @@ class TestSearchController(unittest.TestCase):
 
     def test_search_post(self, words: str="test", hashtags: str="#test", status_code=200):
         response = requests.get(f"{self.BASE_URL}/posts", params={"words": words, "hashtags": hashtags})
-        self.assertEqual(response.status_code, status_code)
+        self.assertEqual(status_code, response.status_code)
 
     def test_get_user_posts(self, user_id: uuid = uuid.uuid4(), status_code=200):
         response = requests.get(f"{self.BASE_URL}/posts/{user_id}")
-        self.assertEqual(response.status_code, status_code)
+        self.assertEqual(status_code, response.status_code)
 
     def test_get_user_name(self, name: str = "name", status_code=200):
         response = requests.get(f"{self.BASE_URL}/posts/{name}")
-        self.assertEqual(response.status_code, status_code)
+        self.assertEqual(status_code, response.status_code)
 
 if __name__ == "__main__":
     unittest.main()
