@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @MongoEntity(collection = "Posts", database = "tinyX")
@@ -23,7 +24,7 @@ public class Post {
     @BsonId
     private  UUID id;
     private  UUID authorId;
-    @Setter private UUID content;
+    private  UUID content;
     private  Date createdAt;
     private  UUID replyTo;
 
@@ -31,7 +32,12 @@ public class Post {
         this.id = UUID.randomUUID();
         this.authorId = authorId;
         this.content = content;
-        this.createdAt = Date.from(new Timestamp(System.currentTimeMillis()).toInstant());
+        this.createdAt = new Date();
         this.replyTo = replyTo;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + this.id + "\n Author: " + this.authorId + "\n Content: " + this.content + "\n Reply: " + this.replyTo;
     }
 }
