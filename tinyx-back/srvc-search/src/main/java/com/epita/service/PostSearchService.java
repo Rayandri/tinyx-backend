@@ -1,13 +1,21 @@
 package com.epita.service;
 
 import com.epita.repository.entity.PostEntity;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import com.epita.repository.PostSearchRepository;
 import jakarta.ws.rs.core.Response;
+import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class PostSearchService {
@@ -36,6 +44,45 @@ public class PostSearchService {
         }
 
         return Response.ok(posts).build();
+    }
+
+    public Response savePost(PostEntity postEntity) {
+
+        try(MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017/posts")) {
+            MongoDatabase database = mongoClient.getDatabase("tinyX");
+            MongoCollection<Document> collection = database.getCollection("posts");
+
+            Document post = new Document("id", UUID.randomUUID())
+                    .append("author", postEntity.getAuthorId())
+                    .append("content", postEntity.getContent())
+                    .append("time", postEntity.getCreatedAt());
+
+            collection.insertOne(post);
+            return Response.ok().build();
+        }
+        catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    public Response deletePost(UUID id)
+    {
+        try(MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017/posts")){
+            MongoDatabase database = mongoClient.getDatabase("tinyX");
+            MongoCollection<Document> collection = database.getCollection("posts");
+
+            Document filter = new Document("id", id);
+            DeleteResult result = collection.deleteOne(filter);
+
+            if (result.getDeletedCount() == 0) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            else {
+                return Response.ok().build();
+            }
+        } catch (Exception e){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
     }
 
 }

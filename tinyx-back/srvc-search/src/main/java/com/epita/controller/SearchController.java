@@ -1,11 +1,18 @@
 package com.epita.controller;
 
+import com.epita.repository.entity.PostEntity;
 import com.epita.service.PostSearchService;
 import com.epita.service.UserSearchService;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoClient;
+import io.quarkus.mongodb.runtime.MongoClients;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
+import lombok.Getter;
+
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
 import java.util.UUID;
 
@@ -18,6 +25,8 @@ public class SearchController {
 
     @Inject
     UserSearchService userService;
+    @Inject
+    MongoClients mongoClients;
 
     //------------------- Post Search -------------------
 
@@ -35,6 +44,24 @@ public class SearchController {
          * hashtags = "#hashtag1 #hashtag2 #hashtag3 ..."
          */
         return postSearchService.searchPost(words, hashtags);
+    }
+
+    @POST
+    @Path("/posts/save")
+    public Response savePost(@RequestBody PostEntity postEntity) {
+        /*
+        * save a post in the post table
+        * */
+        return postSearchService.savePost(postEntity);
+    }
+
+    @GET
+    @Path("/posts/delete/{id}")
+    public Response deletePost(@PathParam("id") UUID id){
+        /*
+         * delete in the db the posts
+        */
+        return postSearchService.deletePost(id);
     }
 
     //------------------- User Search -------------------

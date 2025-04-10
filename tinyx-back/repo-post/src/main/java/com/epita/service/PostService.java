@@ -85,7 +85,7 @@ public class PostService {
         publisher.publish(postContract);
 
         //Check reply message exists
-        if (postRepository.findPostById(content.replyTo) == null) {
+        if (content.replyTo != null && postRepository.findPostById(content.replyTo) == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Reply message not found").build();
         }
 

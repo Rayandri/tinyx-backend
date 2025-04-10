@@ -3,13 +3,14 @@ package com.epita.service;
 import com.epita.repository.BlockRepository;
 import com.epita.repository.FollowRepository;
 import com.epita.repository.LikeRepository;
+import com.epita.repository.Neo4JRepository;
 import com.epita.repository.UserRepository;
-import com.epita.repository.entity.BlockRelation;
-import com.epita.repository.entity.FollowRelation;
 import com.epita.repository.entity.Like;
+import com.epita.repository.entity.Node;
+import com.epita.repository.entity.Relationship;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class UserService {
     FollowRepository followRepository;
     @Inject
     BlockRepository blockRepository;
+    @Inject
+    Neo4JRepository neo4JRepository;
 
 
 
@@ -69,19 +72,19 @@ public class UserService {
     }
 
     public Response addLike(UUID userId, UUID postId) {
-        likeRepository.addLike(userId, postId);
+        var userNode = new Node(Node.NodeType.USER, userId.toString());
+        var postNode = new Node(Node.NodeType.POST, postId.toString());
+        var rel = new Relationship(userNode, postNode, "LIKES");
+        neo4JRepository.createSimpleRelationship(rel);
         return Response.ok().build();
     }
 
     public Response deleteLike(UUID userId, UUID likeId) {
-        try {
-            likeRepository.removeLike(userId, likeId);
-            return Response.ok().build();
-        }
-        catch (NotFoundException e)
-        {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        var userNode = new Node(Node.NodeType.USER, userId.toString());
+        var postNode = new Node(Node.NodeType.POST, likeId.toString());
+        var rel = new Relationship(userNode, postNode, "LIKES");
+        neo4JRepository.deleteSimpleRelationship(rel);
+        return Response.ok().build();
     }
 
 
@@ -102,24 +105,20 @@ public class UserService {
     }
 
     public Response addFollow(UUID userId, UUID followedUserId) {
-        try {
-            followRepository.addFollow(new FollowRelation(userId, followedUserId));
-        }
-        catch (Exception e)
-        {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        var follower = new Node(Node.NodeType.USER, userId.toString());
+        var followed = new Node(Node.NodeType.USER, followedUserId.toString());
+        var rel = new Relationship(follower, followed, "FOLLOWS");
+        neo4JRepository.createSimpleRelationship(rel);
         return Response.ok().build();
     }
 
     public Response deleteFollow(UUID userId, UUID followId) {
-        try{
-            followRepository.removeFollow(userId, followId);
-        } catch (Exception e)
-        {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        var follower = new Node(Node.NodeType.USER, userId.toString());
+        var followed = new Node(Node.NodeType.USER, followId.toString());
+        var rel = new Relationship(follower, followed, "FOLLOWS");
+        neo4JRepository.deleteSimpleRelationship(rel);
         return Response.ok().build();
+
     }
 
 
@@ -140,22 +139,18 @@ public class UserService {
     }
 
     public Response addBlock(UUID userId, UUID blockedUserId) {
-        try{
-            blockRepository.addBlock(new BlockRelation(userId, blockedUserId));
-        } catch (Exception e)
-        {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        var blocker = new Node(Node.NodeType.USER, userId.toString());
+        var blocked = new Node(Node.NodeType.USER, blockedUserId.toString());
+        var rel = new Relationship(blocker, blocked, "BLOCKS");
+        neo4JRepository.createSimpleRelationship(rel);
         return Response.ok().build();
     }
 
     public Response deleteBlock(UUID userId, UUID blockId) {
-        try {
-            blockRepository.removeBlock(userId, blockId);
-        } catch (Exception e)
-        {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        var blocker = new Node(Node.NodeType.USER, userId.toString());
+        var blocked = new Node(Node.NodeType.USER, blockId.toString());
+        var rel = new Relationship(blocker, blocked, "BLOCKS");
+        neo4JRepository.deleteSimpleRelationship(rel);
         return Response.ok().build();
     }
 }
