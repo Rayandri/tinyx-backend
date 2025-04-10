@@ -18,14 +18,16 @@ class TestSimpleScenario(unittest.TestCase):
         return ''.join(random.choice(string.ascii_letters) for x in range(20))
 
     """
-    Scénario qui créé un user, verifie qu'aucun post de ce user n'existe puis supprime le user
+    Scénario qui créé un user, verifie qu'aucun post de ce user n'existe, change son password puis supprime le user
     """
     def test_scenario_1(self):
         # Étape 1 : Créer un user
         user_id = self.auth_controller.test_create_user(self.random_username_generator(), "password")["id"]
         # Étape 2 : Vérifie si un poste existe (spoiler : non)
         self.post_controller.test_get_post(user_id, 404)
-        # Étapoe 3 : Supprimer l'utilisateur
+        # Étape 3 : Change le password du user
+        self.auth_controller.test_update_password(user_id, "new_password")
+        # Étape 4 : Supprimer l'utilisateur
         self.auth_controller.test_delete(user_id)
 
     """
