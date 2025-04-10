@@ -28,7 +28,7 @@ public class AuthService {
             LOGGER.warnf("[AUTH] Create User : Failure : The user %s already exists", username);
             return Response.status(Response.Status.CONFLICT).build();
         }
-        UserEntity user = new UserEntity(username, hashPassword(password), new Date(), new Date());
+        UserEntity user = new UserEntity(UUID.randomUUID(), username, hashPassword(password), new Date(), new Date());
         authRepository.createUser(user);
         LOGGER.infof("[AUTH] Create User : User created with success : %s", username);
         return Response.ok(user).build();
