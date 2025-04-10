@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
@@ -22,6 +23,7 @@ public class PostController {
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPosts() {
+
         return postService.getPosts();
     }
 
@@ -30,6 +32,7 @@ public class PostController {
     @Path("/user")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUserPosts(@QueryParam("id") UUID id) {
+
         return postService.getPostsFromUser(id);
     }
 
@@ -37,6 +40,7 @@ public class PostController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPost(@QueryParam("id") UUID id) {
+
         return postService.getPostFromId(id);
     }
 
@@ -45,6 +49,7 @@ public class PostController {
     @Path("/reply")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReply(@QueryParam("id") UUID id) {
+
         return postService.getPostReply(id);
     }
 
@@ -52,13 +57,24 @@ public class PostController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPost(@HeaderParam("X-user-id") UUID userId, PostContentContract content) {
+        if (userId == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Missing required header: X-user-id")
+                    .build();
+        }
+
         return postService.addPost(userId, content);
     }
 
     /// This endpoint deletes the post with the given UUID.
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPost(@HeaderParam("X-user-id") UUID userId, UUID postId) {
+    public Response getPost(@HeaderParam("X-user-id") UUID userId, @HeaderParam("X-post-id") UUID postId) {
+        if (userId == null || postId == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Missing required header: X-user-id")
+                    .build();
+        }
         return postService.deletePost(userId, postId);
     }
 }

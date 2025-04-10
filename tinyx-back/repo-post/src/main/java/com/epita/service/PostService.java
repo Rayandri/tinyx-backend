@@ -2,6 +2,7 @@ package com.epita.service;
 
 import com.epita.controller.contracts.PostContentContract;
 import com.epita.controller.contracts.PostContract;
+import com.epita.controller.contracts.PostDisplayContract;
 import com.epita.repository.PostContentRepository;
 import com.epita.repository.PostPublisher;
 import com.epita.repository.PostRepository;
@@ -11,6 +12,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,10 +32,17 @@ public class PostService {
 
         //Ensure there are posts
         List<Post> posts = postRepository.getAllPosts();
+        for (Post post : posts) {System.out.println(post);}
         if (posts.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No posts found").build();
         }
-        return Response.ok(posts).build();
+
+        // Build final list
+        List<PostDisplayContract> display = new ArrayList<>();
+        for (Post post : posts) {
+            display.add(new PostDisplayContract(post, postContentRepository.findPostContentById(post.getContent())));
+        }
+        return Response.ok(display).build();
     }
 
     public Response getPostsFromUser(UUID authorId) {
@@ -43,7 +52,13 @@ public class PostService {
         if (posts.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No posts found for this user").build();
         }
-        return Response.ok(posts).build();
+
+        // Build final list
+        List<PostDisplayContract> display = new ArrayList<>();
+        for (Post post : posts) {
+            display.add(new PostDisplayContract(post, postContentRepository.findPostContentById(post.getContent())));
+        }
+        return Response.ok(display).build();
     }
 
     public Response getPostFromId(UUID id) {
@@ -53,7 +68,7 @@ public class PostService {
         if (post == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Post not found").build();
         }
-        return Response.ok(post).build();
+        return Response.ok(new PostDisplayContract(post, postContentRepository.findPostContentById(post.getContent()))).build();
     }
 
     public Response getPostReply(UUID postId) {
@@ -70,11 +85,11 @@ public class PostService {
         }
 
         // Check reply message exists
-        PostContent reply = postContentRepository.findPostContentById(post.getReplyTo());
+        Post reply = postRepository.findPostById(post.getReplyTo());
         if (reply == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Reply message not found").build();
         }
-        return Response.ok(reply).build();
+        return Response.ok(new PostDisplayContract(reply, postContentRepository.findPostContentById(reply.getContent()))).build();
     }
 
     public Response addPost(UUID userId, PostContentContract content) {
@@ -85,17 +100,22 @@ public class PostService {
         publisher.publish(postContract);
 
         //Check reply message exists
-        if (content.replyTo != null && postRepository.findPostById(content.replyTo) == null) {
+        if (content.getReplyTo() != null && postRepository.findPostById(content.getReplyTo()) == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Reply message not found").build();
         }
 
+        if (content.getRepost() != null && postRepository.findPostById(content.getRepost()) == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Repost message not found").build();
+        }
+
         // Check if the post content is valid
-        PostContent postContent = new PostContent(content.getContent(), content.getMedia(),content.getRepost());
         try {
-            postRepository.addPost(userId, postContent, content.replyTo);
+            PostContent postContent = new PostContent(content.getContent(), content.getMedia(),content.getRepost());
+            postContentRepository.save(postContent);
+            postRepository.addPost(userId, postContent, content.getReplyTo());
         }
         catch(IllegalArgumentException e) {
-            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+            return Response.status(Response.Status.NOT_FOUND).entity("There must be at least one and at most two of the fields: text, media, repost").build();
         }
 
         return Response.ok().build();
@@ -111,7 +131,7 @@ public class PostService {
         }
 
         // Check if post is authored by the user
-        if(post.getAuthorId() != userId) {
+        if(post.getAuthorId().compareTo(userId) != 0) {
             return Response.status(Response.Status.FORBIDDEN).entity("You are not the author of this post").build();
         }
 

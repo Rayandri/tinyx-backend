@@ -10,10 +10,10 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 public class PostContentContract {
-    public String content;
-    public String media;
-    public UUID repost;
-    public UUID replyTo;
+    private String content;
+    private String media;
+    private UUID repost;
+    private UUID replyTo;
 
     public PostContentContract() {
     }

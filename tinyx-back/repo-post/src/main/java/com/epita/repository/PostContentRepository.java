@@ -10,6 +10,10 @@ import java.util.UUID;
 @ApplicationScoped
 public class PostContentRepository implements PanacheMongoRepositoryBase<PostContent, UUID> {
 
+    public void save(PostContent content) {
+        persist(content);
+    }
+
     public PostContent findPostContentById(UUID id) {
         return findById(id);
     }

@@ -24,24 +24,24 @@ public class PostContract {
         UNLIKED,
     }
 
-    public UUID id;
-    public UUID author;
+    private UUID id;
+    private UUID author;
 
-    public List<UUID> likes;
-    public List<UUID> retweets;
+    private List<UUID> likes;
+    private List<UUID> retweets;
 
-    public PostContentContract content;
+    private PostContentContract content;
 
-    public Date created_at;
-    public Date updated_at;
+    private Date createdAt;
+    private Date updatedAt;
 
-    public PostAction action;
+    private PostAction action;
 
 
     public static PostContract createPost(UUID author, PostContentContract content) {
         PostContract postContract = new PostContract();
-        postContract.created_at = new Date();
-        postContract.updated_at = new Date();
+        postContract.createdAt = new Date();
+        postContract.updatedAt = new Date();
         postContract.author = author;
         postContract.id = UUID.randomUUID();
         postContract.likes = new ArrayList<>();
@@ -53,8 +53,8 @@ public class PostContract {
 
     public static PostContract deletePost(Post post) {
         PostContract postContract = new PostContract();
-        postContract.created_at = post.getCreatedAt();
-        postContract.updated_at = new Date();
+        postContract.createdAt = post.getCreatedAt();
+        postContract.updatedAt = new Date();
         postContract.author = post.getAuthorId();
         postContract.id = post.getId();
         postContract.likes = new ArrayList<>();
