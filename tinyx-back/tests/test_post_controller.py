@@ -24,7 +24,8 @@ class TestPostController(unittest.TestCase):
     def test_get_user_posts(self, user_id: uuid=uuid.uuid4(), status_code: int=200):
         response = requests.get(f"{self.BASE_URL}/user", params={"id": user_id})
         self.assertEqual(status_code, response.status_code)
-        self.assertIsInstance(response.json(), list)
+        if status_code != 404 and status_code != 400 and status_code != 500:
+            self.assertIsInstance(response.json(), list)
         try:
             return response.json()
         except:
@@ -33,7 +34,8 @@ class TestPostController(unittest.TestCase):
     def test_get_post(self, post_id: uuid=uuid.uuid4(), status_code: int=200):
         response = requests.get(f"{self.BASE_URL}", params={"id": post_id})
         self.assertEqual(status_code, response.status_code)
-        self.assertIsInstance(response.json(), dict)
+        if status_code != 404 and status_code != 400 and status_code != 500:
+            self.assertIsInstance(response.json(), dict)
         try:
             return response.json()
         except:
@@ -42,7 +44,8 @@ class TestPostController(unittest.TestCase):
     def test_get_reply(self, post_id: uuid=uuid.uuid4(), status_code: int=200):
         response = requests.get(f"{self.BASE_URL}/reply", params={"id": post_id})
         self.assertEqual(status_code, response.status_code)
-        self.assertIsInstance(response.json(), dict)
+        if status_code != 404 and status_code != 400 and status_code != 500:
+            self.assertIsInstance(response.json(), dict)
         try:
             return response.json()
         except:
