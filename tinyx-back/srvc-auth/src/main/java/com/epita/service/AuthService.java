@@ -26,12 +26,14 @@ public class AuthService {
         LOGGER.infof("[AUTH] Create User : Trying to create : %s", username);
         if (authRepository.userExists(username)) {
             LOGGER.warnf("[AUTH] Create User : Failure : The user %s already exists", username);
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.CONFLICT)
+                .entity("User already exists")
+                .build();
         }
-        UserEntity user = new UserEntity(username, hashPassword(password), new Date(), new Date());
+        UserEntity user = new UserEntity(UUID.randomUUID(), username, hashPassword(password), new Date(), new Date());
         authRepository.createUser(user);
         LOGGER.infof("[AUTH] Create User : User created with success : %s", username);
-        return Response.ok(user).build();
+        return Response.ok(user).entity("User created successfully").build();
     }
 
     public Response login(String username, String password) {
@@ -39,7 +41,9 @@ public class AuthService {
         UserEntity user = authRepository.getUserByUsernameAndHashPassword(username, hashPassword(password));
         if (user == null) {
             LOGGER.warnf("[AUTH] Login : Failure : User %s not found or wrong password", username);
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND)
+                .entity("Invalid username or password")
+                .build();
         }
         UserContract userContract = new UserContract(user.getId(), user.username, user.password_hash, user.created_at, user.updated_at);
         LOGGER.infof("[AUTH] Login : Connection successful for user : %s", username);
@@ -51,12 +55,16 @@ public class AuthService {
         UserEntity user = authRepository.getUser(id);
         if (user == null) {
             LOGGER.warnf("[AUTH] Password update : USER (%s) NOT FOUND", id);
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND)
+                .entity("User not found")
+                .build();
         }
         user.password_hash = hashPassword(password);
         authRepository.updateUser(user);
         LOGGER.infof("[AUTH] Password updated for : %s", id);
-        return Response.ok().build();
+        return Response.ok()
+            .entity("Password updated successfully")
+            .build();
     }
 
     public Response deleteUser(UUID id) {
@@ -64,12 +72,16 @@ public class AuthService {
         UserEntity user = authRepository.getUser(id);
         if (user == null) {
             LOGGER.warnf("[AUTH] Delete User : USER (%s) NOT FOUND", id);
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND)
+                .entity("User not found")
+                .build();
         }
         authRepository.deleteUser(id);
 
         LOGGER.warnf("[AUTH] Deleted User : %s", id);
-        return Response.ok().build();
+        return Response.ok()
+            .entity("User deleted successfully")
+            .build();
     }
 
     private String hashPassword(String password) {
