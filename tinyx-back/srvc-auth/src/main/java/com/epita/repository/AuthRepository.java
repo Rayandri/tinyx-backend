@@ -28,7 +28,7 @@ public class AuthRepository implements PanacheMongoRepositoryBase<UserEntity, UU
     }
 
     public UserEntity getUserByUsernameAndHashPassword(String username, String password_hash) {
-        return find("username", username, "password_hash", password_hash).firstResult();
+        return find("{'username': ?1, 'password_hash': ?2}", username, password_hash).firstResult();
     }
 
     public void deleteUser(UUID id) {

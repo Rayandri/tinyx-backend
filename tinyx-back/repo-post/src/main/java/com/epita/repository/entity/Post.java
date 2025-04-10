@@ -3,6 +3,7 @@ package com.epita.repository.entity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.codecs.pojo.annotations.BsonId;
 import java.sql.Timestamp;
@@ -10,6 +11,8 @@ import java.util.Date;
 import java.util.UUID;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @MongoEntity(collection = "Posts", database = "tinyX")
 public class Post {
     /**
@@ -18,11 +21,11 @@ public class Post {
      */
 
     @BsonId
-    private final UUID id;
-    private final UUID authorId;
+    private  UUID id;
+    private  UUID authorId;
     @Setter private UUID content;
-    private final Date createdAt;
-    private final UUID replyTo;
+    private  Date createdAt;
+    private  UUID replyTo;
 
     public Post(UUID authorId, UUID content, UUID replyTo) {
         this.id = UUID.randomUUID();
