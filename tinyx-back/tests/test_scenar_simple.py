@@ -11,7 +11,11 @@ class TestSimpleScenario(unittest.TestCase):
         user_controller = TestUserController()
 
         # Étape 1 : Créer un user
-        user_id = auth_controller.test_create_user("testuser", "michel")
+        user_id = auth_controller.test_create_user("TestUser", "password")["id"]
+        # Étape 2 : Tenter une connexion avec le nouvel utilisateur
+        auth_controller.test_login("TestUser", "password")
+        # Étapoe 3 : Supprimer l'utilisateur
+        auth_controller.test_delete(user_id)
 
 if __name__ == "__main__":
     unittest.main()
