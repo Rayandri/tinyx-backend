@@ -26,7 +26,6 @@ public class PostRepository implements PanacheMongoRepositoryBase<Post, UUID> {
 
     public void addPost(UUID user, PostContent content, UUID reply){
         Post post = new Post(user, content.getId(), reply);
-        System.out.println(post);
         persist(post);
     }
 
