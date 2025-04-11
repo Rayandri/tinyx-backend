@@ -46,43 +46,4 @@ public class PostSearchService {
         return Response.ok(posts).build();
     }
 
-    public Response savePost(PostEntity postEntity) {
-
-        try(MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017/posts")) {
-            MongoDatabase database = mongoClient.getDatabase("tinyX");
-            MongoCollection<Document> collection = database.getCollection("posts");
-
-            Document post = new Document("id", UUID.randomUUID())
-                    .append("author", postEntity.getAuthorId())
-                    .append("content", postEntity.getContent())
-                    .append("time", postEntity.getCreatedAt());
-
-            collection.insertOne(post);
-            return Response.ok().build();
-        }
-        catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
-    }
-
-    public Response deletePost(UUID id)
-    {
-        try(MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017/posts")){
-            MongoDatabase database = mongoClient.getDatabase("tinyX");
-            MongoCollection<Document> collection = database.getCollection("posts");
-
-            Document filter = new Document("id", id);
-            DeleteResult result = collection.deleteOne(filter);
-
-            if (result.getDeletedCount() == 0) {
-                return Response.status(Response.Status.NOT_FOUND).build();
-            }
-            else {
-                return Response.ok().build();
-            }
-        } catch (Exception e){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
-    }
-
 }

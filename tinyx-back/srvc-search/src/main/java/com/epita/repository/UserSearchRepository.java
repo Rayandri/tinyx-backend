@@ -43,27 +43,4 @@ public class UserSearchRepository {
         }
     }
 
-    public List<PostEntity> aggregatePosts(UUID id) {
-        try {
-            SearchRequest searchRequest = SearchRequest.of(sr -> sr
-                    .index("posts")
-                    .query(q -> q
-                            .term(t -> t
-                                    .field("userId")
-                                    .value("ton_user_id") // Remplace par la vraie valeur de l'id
-                            )
-                    )
-            );
-
-
-            SearchResponse<PostEntity> response = elasticsearchClient.search(searchRequest, PostEntity.class);
-            return response.hits()
-                    .hits()
-                    .stream()
-                    .map(Hit::source)
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            return Collections.emptyList();
-        }
-    }
 }

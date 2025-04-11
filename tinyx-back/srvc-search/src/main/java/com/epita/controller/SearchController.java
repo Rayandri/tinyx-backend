@@ -46,38 +46,11 @@ public class SearchController {
         return postSearchService.searchPost(words, hashtags);
     }
 
-    @POST
-    @Path("/posts/save")
-    public Response savePost(@RequestBody PostEntity postEntity) {
-        /*
-        * save a post in the post table
-        * */
-        return postSearchService.savePost(postEntity);
-    }
-
-    @GET
-    @Path("/posts/delete/{id}")
-    public Response deletePost(@PathParam("id") UUID id){
-        /*
-         * delete in the db the posts
-        */
-        return postSearchService.deletePost(id);
-    }
-
     //------------------- User Search -------------------
 
     @GET
-    @Path("/posts/{id}")
-    public Response getUserPosts(@PathParam("id") UUID id) {
-        /*
-         * Search in MongoDB all the posts made by this user
-         */
-        return userService.getUserPosts(id);
-    }
-
-    @GET
     @Path("/users/{name}")
-    public Response getUser(@PathParam("name") String name) {
+    public Response getUserByName(@PathParam("name") String name) {
         /*
          * Search in MongoDB for the user that matches the "name" field
          * Here name refers to a regex that has to be used to look for users
