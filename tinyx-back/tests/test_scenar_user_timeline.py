@@ -1,8 +1,8 @@
 import unittest
-from test_repo_social import TestPostController
+from test_post_controller import TestPostController
 from test_auth import TestAuthController
-from test_user_controller import TestUserController
 import random
+from test_user_controller import TestUserController
 import string
 
 #Ceci est un exemple de scénario (il marche pas car la il y a pas de user créé dans la db mais c'est la structure)
@@ -23,10 +23,11 @@ class TestSimpleScenario(unittest.TestCase):
     def test_scenario_1(self):
         # Étape 1 : Créer un user
         user_id = self.auth_controller.test_create_user(self.random_username_generator(), "password")["id"]
-        # Étape 2 : Vérifie si un poste existe (spoiler : non)
-        self.post_controller.test_get_post(user_id, 404)
-        # Étape 3 : Change le password du user
-        self.auth_controller.test_update_password(user_id, "new_password")
+        # Étape 2 : Publier un poste
+        post_id = self.post_controller.test_add_post(user_id, "This is a test poste", media="", repost="", replyto="")["id"]
+        # Étape 3 : Ajoute un like
+        
+
         # Étape 4 : Supprimer l'utilisateur
         self.auth_controller.test_delete(user_id)
 

@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://localhost:8084/api/timeline"
+BASE_URL = "http://localhost:8086/api/timeline"
 
 #Service cassé en local, pas acces au swagger, #todo quand service fix
 

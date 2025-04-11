@@ -74,10 +74,7 @@ public class UserTimelineService {
                 timelineRepository.removeTimelineEntry(timeline, message.getId());
                 break;
             case UNLIKED:
-                // Pour un unlike, on retire le post de la timeline sauf si c'est le post de l'utilisateur lui-même
-                if (!timeline.getUserId().equals(message.getAuthor())) {
-                    timelineRepository.removeTimelineEntry(timeline, message.getId());
-                }
+                timelineRepository.removeTimelineEntry(timeline, message.getId());
                 break;
         }
     }

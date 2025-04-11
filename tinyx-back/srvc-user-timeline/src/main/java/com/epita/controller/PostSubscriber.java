@@ -13,14 +13,16 @@ import java.util.function.Consumer;
 
 import static io.quarkus.mongodb.runtime.dns.MongoDnsClientProvider.vertx;
 
+
 @Startup
 @ApplicationScoped
 public class PostSubscriber implements Consumer<PostContract> {
     private final PubSubCommands.RedisSubscriber subscriber;
 
     @Inject
-    UserTimelineService homeService;
+    UserTimelineService userService;
 
+    @Inject
     public PostSubscriber(final RedisDataSource ds) {
         subscriber = ds.pubsub(PostContract.class)
                 .subscribe("posts", this);
@@ -28,8 +30,14 @@ public class PostSubscriber implements Consumer<PostContract> {
     @Override
     public void accept(final PostContract message) {
         vertx.executeBlocking(future-> {
-            homeService.newUpdate(message);
-            future.complete();
+            try {
+                userService.newUpdate(message);
+                future.complete();
+            }
+            catch (Exception e) {
+                future.fail(e);
+            }
+            
         });
     }
 
