@@ -43,3 +43,11 @@ class TestAuthController(unittest.TestCase):
             return response.json()
         except:
             return response
+
+    def test_get_users(self, status_code: int=200):
+        response = requests.get(f"{self.BASE_URL}/user/all")
+        self.assertEqual(status_code, response.status_code)
+        try:
+            return response.json()
+        except:
+            return response

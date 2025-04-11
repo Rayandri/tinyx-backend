@@ -98,5 +98,43 @@ class TestSimpleScenario(unittest.TestCase):
         self.auth_controller.test_delete(user1_id)
         self.auth_controller.test_delete(user2_id)
 
+    """
+    Scénario qui créé un user, qui se login correctement, qui change de mot de passe et supprime l'user
+    """
+    def test_scenario_6(self):
+        # Étape 1 : Créer un user
+        user1_id = self.auth_controller.test_create_user("user1", "password")["id"]
+        # Étape 2 : Se login
+        self.auth_controller.test_login("user1", "password"):
+        # Étape 3 : User modifie le mot de passe
+        self.auth_controller.test_update_password(user1_id)
+        # Étape 4 : Supprimer le user
+        self.auth_controller.test_delete(user1_id)
+
+    """
+    Scénario qui créé un user, qui met le mauvais mot de passe et supprime l'user
+    """
+    def test_scenario_7(self):
+        # Étape 1 : Créer un user
+        user1_id = self.auth_controller.test_create_user("user1", "password")["id"]
+        # Étape 2 : Se login avec le mauvais mot de passe
+        self.auth_controller.test_login("user1", "bad_password", 404)
+        # Étape 3 : Supprimer le user
+        self.auth_controller.test_delete(user1_id)
+
+    """
+    Scénario qui créé deux users avec le meme username et supprime un user
+    """
+    def test_scenario_8(self):
+        # Étape 1 : Créer un user
+        user1_id = self.auth_controller.test_create_user("user1", "password")["id"]
+        # Étape 2 : Créer un user avec le meme username
+        self.auth_controller.test_create_user("user1", "other_password", 409)
+        # Étape 3 : Affiche les users
+        self.auth_controller.test_get_users()
+        # Étape 4 : Supprimer le user
+        self.auth_controller.test_delete(user1_id)
+
+
 if __name__ == "__main__":
     unittest.main()
