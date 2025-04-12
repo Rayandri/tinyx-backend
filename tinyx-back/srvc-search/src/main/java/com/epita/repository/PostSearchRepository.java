@@ -8,8 +8,17 @@ import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+
+
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 @ApplicationScoped
 public class PostSearchRepository implements PanacheMongoRepositoryBase<PostContentEntity, UUID> {
