@@ -1,0 +1,813 @@
+openapi: 3.0.3
+info:
+  title: Combined Microservices API
+  version: "1.0"
+  description: >
+    Ce swagger regroupe tous les API OpenAPI issues des services de tinyX.
+    Les serveurs sont indiqués globalement ainsi qu’au niveau de chaque chemin :
+      - http://localhost:8081 → repo-post API
+      - http://localhost:8082 → repo-social API
+      - http://localhost:8083 → srvc-auth API
+      - http://localhost:8084 → srvc-home-timeline API
+      - http://localhost:8085 → srvc-search API
+      - http://localhost:8086 → srvc-user-timeline API
+servers:
+  - url: "http://localhost:8081"
+  - url: "http://localhost:8082"
+  - url: "http://localhost:8083"
+  - url: "http://localhost:8084"
+  - url: "http://localhost:8085"
+  - url: "http://localhost:8086"
+paths:
+
+  # ------------------------
+  # AUTH SERVICE (localhost:8083)
+  # ------------------------
+  /api/auth/create:
+    post:
+      servers:
+        - url: "http://localhost:8083"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+      responses:
+        "200":
+          description: "User created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserEntity"
+
+  /api/auth/login:
+    post:
+      servers:
+        - url: "http://localhost:8083"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: "User logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserContract"
+
+  /api/auth/update/password:
+    post:
+      servers:
+        - url: "http://localhost:8083"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePasswordRequest"
+      responses:
+        "200":
+          description: "Password updated"
+
+  /api/auth/delete:
+    post:
+      servers:
+        - url: "http://localhost:8083"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "User deleted"
+
+  /api/user/all:
+    get:
+      servers:
+        - url: "http://localhost:8083"
+      responses:
+        "200":
+          description: "List of all users"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserContract"
+
+  # ------------------------
+  # POST SERVICE (localhost:8081)
+  # ------------------------
+  /api/post:
+    get:
+      servers:
+        - url: "http://localhost:8081"
+      parameters:
+        - name: id
+          in: query
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Single post"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostDisplayContract"
+    post:
+      servers:
+        - url: "http://localhost:8081"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostContentContract"
+      responses:
+        "200":
+          description: "Post created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostDisplayContract"
+    delete:
+      servers:
+        - url: "http://localhost:8081"
+      parameters:
+        - name: X-post-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Post deleted"
+
+  /api/post/all:
+    get:
+      servers:
+        - url: "http://localhost:8081"
+      responses:
+        "200":
+          description: "All posts"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PostDisplayContract"
+
+  /api/post/user:
+    get:
+      servers:
+        - url: "http://localhost:8081"
+      parameters:
+        - name: id
+          in: query
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Posts by user"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PostDisplayContract"
+
+  /api/post/reply:
+    get:
+      servers:
+        - url: "http://localhost:8081"
+      parameters:
+        - name: id
+          in: query
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Post replies"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PostDisplayContract"
+
+  # ------------------------
+  # SOCIAL SERVICE (localhost:8082)
+  # ------------------------
+  /api/user/like:
+    post:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+        - name: X-post-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Like added"
+
+  /api/user/likes:
+    get:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "User likes"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LikeRelation"
+
+  /api/user/follow:
+    post:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+        - name: X-followed-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Follow added"
+
+  /api/user/block:
+    post:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-blocked-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "User blocked"
+
+  /api/user/blocked:
+    get:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Blocked users"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FollowRelation"
+
+  /api/user/blockers:
+    get:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Users blocking the user"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FollowRelation"
+
+  /api/user/blocks:
+    get:
+      servers:
+        - url: "http://localhost:8082"
+      responses:
+        "200":
+          description: "All block relations"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FollowRelation"
+
+  /api/user/followers:
+    get:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Followers list"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FollowRelation"
+
+  /api/user/follows:
+    get:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Follows list"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FollowRelation"
+
+  /api/user/follows/all:
+    get:
+      servers:
+        - url: "http://localhost:8082"
+      responses:
+        "200":
+          description: "All follows data"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FollowRelation"
+
+  /api/user/likes/all:
+    get:
+      servers:
+        - url: "http://localhost:8082"
+      responses:
+        "200":
+          description: "All likes by user"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LikeRelation"
+
+  /api/user/likes/post:
+    get:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-post-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Likes for a post"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LikeRelation"
+
+  /api/user/unblock:
+    delete:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-blocked-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "User unblocked"
+
+  /api/user/unfollow:
+    delete:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-follow-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "User unfollowed"
+
+  /api/user/unlike:
+    delete:
+      servers:
+        - url: "http://localhost:8082"
+      parameters:
+        - name: X-post-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Like removed"
+
+  # ------------------------
+  # TIMELINE SERVICE (Home and User)
+  # ------------------------
+  /api/timeline/home:
+    get:
+      servers:
+        - url: "http://localhost:8084"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Home timeline"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Timeline"
+
+  /api/timeline/home/page:
+    get:
+      servers:
+        - url: "http://localhost:8084"
+      parameters:
+        - name: fromDate
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: toDate
+          in: query
+          schema:
+            type: string
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Home timeline page"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Timeline"
+
+  /api/timeline/user:
+    get:
+      servers:
+        - url: "http://localhost:8086"
+      parameters:
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "User timeline"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Timeline"
+
+  /api/timeline/user/page:
+    get:
+      servers:
+        - url: "http://localhost:8086"
+      parameters:
+        - name: fromDate
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: toDate
+          in: query
+          schema:
+            type: string
+        - name: X-user-id
+          in: header
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "User timeline page"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Timeline"
+
+  # ------------------------
+  # SEARCH SERVICE (localhost:8085)
+  # ------------------------
+  /api/search/posts:
+    get:
+      servers:
+        - url: "http://localhost:8085"
+      parameters:
+        - name: words
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Search posts"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PostEntity"
+
+  /api/search/posts/delete/{id}:
+    get:
+      servers:
+        - url: "http://localhost:8085"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Search delete post"
+
+  /api/search/posts/save:
+    post:
+      servers:
+        - url: "http://localhost:8085"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostEntity"
+      responses:
+        "200":
+          description: "Post saved in search index"
+
+  /api/search/posts/{id}:
+    get:
+      servers:
+        - url: "http://localhost:8085"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: "Post details from search"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostEntity"
+
+  /api/search/users/{name}:
+    get:
+      servers:
+        - url: "http://localhost:8085"
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Users matching name"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserEntity"
+components:
+  schemas:
+    UUID:
+      type: string
+      format: uuid
+
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    UpdatePasswordRequest:
+      type: object
+      properties:
+        password:
+          type: string
+
+    UserContract:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        username:
+          type: string
+        password_hash:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    UserEntity:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        name:
+          type: string
+
+    PostContentContract:
+      type: object
+      properties:
+        content:
+          type: string
+        media:
+          type: string
+        repost:
+          $ref: "#/components/schemas/UUID"
+        replyTo:
+          $ref: "#/components/schemas/UUID"
+
+    PostDisplayContract:
+      type: object
+      properties:
+        post:
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/UUID"
+            authorId:
+              $ref: "#/components/schemas/UUID"
+            content:
+              $ref: "#/components/schemas/UUID"
+            createdAt:
+              type: string
+              format: date-time
+            replyTo:
+              $ref: "#/components/schemas/UUID"
+        content:
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/UUID"
+            text:
+              type: string
+            media:
+              type: string
+            repost:
+              $ref: "#/components/schemas/UUID"
+
+    LikeRelation:
+      type: object
+      properties:
+        userID:
+          type: string
+        postID:
+          type: string
+
+    FollowRelation:
+      type: object
+      properties:
+        followerId:
+          type: string
+        followedID:
+          type: string
+
+    PostEntity:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        authorId:
+          $ref: "#/components/schemas/UUID"
+        content:
+          $ref: "#/components/schemas/UUID"
+        createdAt:
+          type: string
+          format: date-time
+        replyTo:
+          $ref: "#/components/schemas/UUID"
+
+    Timeline:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        userId:
+          $ref: "#/components/schemas/UUID"
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/TimelineEntry"
+
+    TimelineEntry:
+      type: object
+      properties:
+        postId:
+          $ref: "#/components/schemas/UUID"
+        timestamp:
+          type: string
+          format: date

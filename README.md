@@ -52,13 +52,18 @@ ELASTICSEARCH_URI=http://localhost:9200
 NEO4J_URI=bolt://localhost:7687
 REDIS_URI=redis://localhost:6379
 ```
+## 📑 API Documentation
 
-4. SWAGGER UI
+All REST endpoints across the microservices are fully specified in a centralized **OpenAPI file**, providing comprehensive visibility, streamlined client generation, and easier integration.
+
+### 🔍 Swagger UI access for each microservice:
 - [Post Service (8081)](http://localhost:8081/q/swagger-ui)
 - [Social Service (8082)](http://localhost:8082/q/swagger-ui)
 - [Auth Service (8083)](http://localhost:8083/q/swagger-ui)
 - [User Timeline Service (8084)](http://localhost:8084/q/swagger-ui)
 - [Search Service (8085)](http://localhost:8085/q/swagger-ui)
+
+> The global OpenAPI file (`openapi.yml`) is located at the root of the project. It aggregates the API specifications of all services and can be used for client generation (via `openapi-generator`), validation, or integration with developer portals.
 
 ## 📜 License
 MIT License
