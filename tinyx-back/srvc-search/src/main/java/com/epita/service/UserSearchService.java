@@ -26,18 +26,4 @@ public class UserSearchService {
 
         return Response.ok(users).build();
     }
-
-    public Response getUserPosts(UUID id) {
-        /*
-         * search in mongodb all the post made by this user
-         * */
-
-        List<PostEntity> posts = userSearchRepository.aggregatePosts(id);
-
-        if (posts.isEmpty()) {
-            return Response.status(404).build();
-        }
-
-        return Response.ok(posts).build();
-    }
 }

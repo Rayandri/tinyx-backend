@@ -36,7 +36,7 @@ public class PostSearchService {
         List<String> wordsList =  words != null ? List.of(words.split(" ")) : new ArrayList<>();
         List<String> hashtagsList = hashtags != null ? List.of(hashtags.split(" ")): new ArrayList<>();
 
-        List<PostEntity> posts = postSearchRepository.searchPost(wordsList, hashtagsList);
+        List<PostEntity> posts = postSearchRepository.searchPosts(wordsList, hashtagsList);
 
         // Ensure list not empty
         if (posts.isEmpty()) {
