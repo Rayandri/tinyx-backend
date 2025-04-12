@@ -24,9 +24,11 @@ public class PostRepository implements PanacheMongoRepositoryBase<Post, UUID> {
         return findById(id);
     }
 
-    public void addPost(UUID user, PostContent content, UUID reply){
+    public Post addPost(UUID user, PostContent content, UUID reply){
         Post post = new Post(user, content.getId(), reply);
         persist(post);
+
+        return post;
     }
 
     public void deletePost(UUID id) {

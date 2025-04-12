@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 @Path("/api/timeline")
 @ApplicationScoped
@@ -38,6 +39,12 @@ public class UserController {
         Date fromDate = parseDate(fromDateStr);
         Date toDate = parseDate(toDateStr);
         return userService.getUserTimeline(userId, page, size, fromDate, toDate);
+    }
+
+    @GET
+    @Path("/user/all")
+    public List<Timeline> getAllTimeline() {
+        return userService.getAllTimelines();
     }
 
     private Date parseDate(String dateStr) {

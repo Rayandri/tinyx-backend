@@ -112,13 +112,12 @@ public class PostService {
         try {
             PostContent postContent = new PostContent(content.getContent(), content.getMedia(),content.getRepost());
             postContentRepository.save(postContent);
-            postRepository.addPost(userId, postContent, content.getReplyTo());
+            Post post = postRepository.addPost(userId, postContent, content.getReplyTo());
+            return Response.ok(new PostDisplayContract(post, postContent)).build();
         }
         catch(IllegalArgumentException e) {
             return Response.status(Response.Status.NOT_FOUND).entity("There must be at least one and at most two of the fields: text, media, repost").build();
         }
-
-        return Response.ok().build();
     }
 
     public Response deletePost(UUID userId, UUID postId) {

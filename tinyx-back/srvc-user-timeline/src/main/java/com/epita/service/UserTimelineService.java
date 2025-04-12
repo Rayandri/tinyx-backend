@@ -60,25 +60,43 @@ public class UserTimelineService {
 
         Optional<Timeline> optionalTimeline = timelineRepository.findByUserId(message.getAuthor());
         Timeline timeline = optionalTimeline.orElseGet(() -> {
+            Log .info("Creating new timeline for user: " + message.getAuthor());
             Timeline newTimeline = new Timeline();
             newTimeline.userId = message.getAuthor();
             newTimeline.id = message.getAuthor();
             return newTimeline;
         });
 
+        Log.info("Timeline for user: " + message.getAuthor() + " found: " + timeline.getId());
+
         switch (message.getAction()) {
             case CREATE, LIKED:
+                Log.info("Adding post to timeline: " + message.getId());
                 timelineRepository.addOrUpdateTimelineEntry(timeline, message.getId(), message.getUpdated_at());
                 break;
             case DELETE:
+                Log.info("Removing post from timeline: " + message.getId());
                 timelineRepository.removeTimelineEntry(timeline, message.getId());
                 break;
             case UNLIKED:
+                Log.info("Removing post from timeline: " + message.getId());
                 // Pour un unlike, on retire le post de la timeline sauf si c'est le post de l'utilisateur lui-même
                 if (!timeline.getUserId().equals(message.getAuthor())) {
                     timelineRepository.removeTimelineEntry(timeline, message.getId());
                 }
                 break;
+            default:
+                Log.warn("Unknown action: " + message.getAction());
+                break;
         }
+    }
+
+    public List<Timeline> getAllTimelines() {
+        List<Timeline> timelines = timelineRepository.listAll();
+        if (timelines.isEmpty()) {
+            Log.info("No timelines found");
+            return Collections.emptyList();
+        }
+        return timelines;
     }
 }

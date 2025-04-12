@@ -15,6 +15,8 @@ import jakarta.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
@@ -67,14 +69,23 @@ public class UserService {
     public void newUpdate(PostContract message) {
         Log.info("Update for post action: " + message.getAction() + " for user: " + message.getAuthor());
 
+        Log.info("Timeline for user: " + message.getAuthor());
         Timeline timeline = timelineRepository.findByUserId(message.getAuthor());
 
         updateTimeline(message, timeline);
 
-        List<FollowEntry> followers = repoSocialRestClient.getFollowers(message.getAuthor());
-        for (FollowEntry follower : followers) {
-            Timeline followerTimeline = timelineRepository.findByUserId(follower.getFollowerId());
+        Log.info("Timeline found: " + timeline.getId());
+
+        Response followersres = repoSocialRestClient.getFollowers(message.getAuthor());
+        List<String> followers = followersres.readEntity(new GenericType<List<String>>() {});
+
+        Log.info("Followers for user: " + message.getAuthor() + " found: " + followers.size());
+        for (String follower : followers) {
+            UUID followerId = UUID.fromString(follower);
+            Log.info("Follower: " + follower);
+            Timeline followerTimeline = timelineRepository.findByUserId(followerId);
             if (followerTimeline != null) {
+                Log.info("Follower timeline found: " + followerTimeline.getId());
                 updateTimeline(message, followerTimeline);
             }
         }
@@ -98,6 +109,7 @@ public class UserService {
     }
 
     public void newUpdate(UserContract userPublish) {
+        
         Log.info("Update for user action: " + userPublish.getUser_action()
                 + " for followed user: " + userPublish.getId()
                 + " and follower: " + userPublish.getFollowers());
@@ -131,5 +143,13 @@ public class UserService {
                 timelineRepository.removeTimelineEntry(timeline, userPublish.getId());
                 break;
         }
+    }
+
+    public List<Timeline> getAllTimelines() {
+        List<Timeline> timelines = timelineRepository.listAll();
+        if (timelines == null) {
+            return new ArrayList<>();
+        }
+        return timelines;
     }
 }
