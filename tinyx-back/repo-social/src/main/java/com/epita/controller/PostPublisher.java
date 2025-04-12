@@ -1,11 +1,13 @@
-package com.epita.repository;
+package com.epita.controller;
 
-import com.epita.repository.entity.PostEntityPublish;
+import com.epita.controller.contract.PostEntityPublish;
 import io.quarkus.redis.datasource.RedisDataSource;
+import jakarta.ejb.Startup;
 import jakarta.enterprise.context.ApplicationScoped;
 import io.quarkus.redis.datasource.pubsub.PubSubCommands;
 import jakarta.inject.Inject;
 
+@Startup
 @ApplicationScoped
 public class PostPublisher {
     private final PubSubCommands<PostEntityPublish> publisher;

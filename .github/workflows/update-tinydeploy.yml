@@ -1,0 +1,22 @@
+name: Update TinyX Deploy Repository
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  update:
+    name: Update Deploy Repository
+    runs-on: self-hosted # Uses your self-hosted runner on the Raspberry Pi
+
+    steps:
+      - name: Update Deploy Repository
+        run: |
+          cd /home/alesia/inf8/tinyx-deploy
+          git pull origin main
+          git submodule update --remote subrepository/tinyx-backend
+          git add subrepository/tinyx-backend
+          git commit -m "CI: Update tinyx-backend submodule " || echo "No changes to commit"
+          git push origin main

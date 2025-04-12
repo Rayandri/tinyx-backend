@@ -90,4 +90,14 @@ public class AuthService {
             throw new RuntimeException("[AUTH] Error in the hashing of the password", e);
         }
     }
+
+    public Response getAllUsers() {
+        LOGGER.info("[AUTH] Get all users");
+        var users = authRepository.getAllUsers();
+        if (users == null) {
+            LOGGER.warn("[AUTH] No users found");
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(users).build();
+    }
 }

@@ -5,10 +5,7 @@ import com.epita.repository.entity.UserEntity;
 import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @ApplicationScoped
 public class AuthRepository implements PanacheMongoRepositoryBase<UserEntity, UUID> {
@@ -37,5 +34,9 @@ public class AuthRepository implements PanacheMongoRepositoryBase<UserEntity, UU
 
     public boolean userExists(String username) {
         return find("username", username).firstResult() != null;
+    }
+
+    public List<UserEntity> getAllUsers() {
+        return findAll().list();
     }
 }

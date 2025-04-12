@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.UUID;
-@Path("/api/auth")
+@Path("/api")
 @ApplicationScoped
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -20,8 +20,14 @@ public class UserController {
     @Inject
     AuthService authService;
 
+    @GET
+    @Path("/user/all")
+    public Response getAllUsers() {
+        return authService.getAllUsers();
+    }
+
     @POST
-    @Path("/create")
+    @Path("/auth/create")
     public Response createUser(CreateUserRequest request) {
         if (request.username == null || request.password == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -30,7 +36,7 @@ public class UserController {
     }
 
     @POST
-    @Path("/login")
+    @Path("/auth/login")
     public Response login(LoginRequest request) {
         if (request.username == null || request.password == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -39,7 +45,7 @@ public class UserController {
     }
 
     @POST
-    @Path("/update/password")
+    @Path("/auth/update/password")
     public Response changePassword(@HeaderParam("X-user-id") UUID id, UpdatePasswordRequest request) {
         if (id == null || request.password == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -49,7 +55,7 @@ public class UserController {
     }
 
     @POST
-    @Path("/delete")
+    @Path("/auth/delete")
     public Response deleteAccount(@HeaderParam("X-user-id") UUID id) {
         if (id == null){
             return Response.status(Response.Status.BAD_REQUEST).build();

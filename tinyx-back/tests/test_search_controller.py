@@ -29,3 +29,28 @@ class TestSearchController(unittest.TestCase):
             return response.json()
         except:
             return response
+        
+    def test_save_post(self, body: dict = None, status_code=201):
+        if body is None:
+            body = {
+                "id" : str(uuid.uuid4()),
+                "authorId": "113c3ceb-c562-4474-8066-427d0bffdb3b",
+                "content": "Ceci est un test de post #testUwU",
+                "createdAt": datetime.now(timezone.utc).isoformat()
+            }
+        response = requests.post(f"{self.BASE_URL}/posts/save", json=body)
+        self.assertEqual(status_code, response.status_code)
+        try:
+            return response.json()
+        except:
+            return response
+    
+    def test_search_post(self):
+        word = "test"
+        hastag = "#test"
+        response = requests.get(f"{self.BASE_URL}/posts", params={"words": word, "hashtags": hastag})
+        self.assertEqual(response.status_code, 200)
+        try:
+            return response.json
+        except:
+            return response

@@ -25,6 +25,7 @@ class TestPostController(unittest.TestCase):
 
     def test_get_user_posts(self, user_id: uuid=USER_UUID, status_code: int=200):
         response = requests.get(f"{self.BASE_URL}/user", params={"id": user_id})
+
         self.assertEqual(status_code, response.status_code)
         if status_code != 404 and status_code != 400 and status_code != 500:
             self.assertIsInstance(response.json(), list)
@@ -53,14 +54,15 @@ class TestPostController(unittest.TestCase):
         except:
             return response
 
+
     def test_add_post(self, user_id: uuid=USER_UUID, content: str="This is a test post", media: str="", repost: str="", replyTo: str="", status_code=200):
         post_content = {
             "content": content,
-            "media": media,
+            "media": "",
             "repost": repost,
             "replyTo": replyTo
         }
-        response = requests.post(f"{self.BASE_URL}", headers={"X-user-id": user_id}, json=post_content)
+        response = requests.post(f"{self.BASE_URL}", headers={"X-user-id": str(user_id)}, json=post_content)
         self.assertEqual(status_code, response.status_code)
         try :
             return response.json()
@@ -68,8 +70,7 @@ class TestPostController(unittest.TestCase):
             return response
 
     def test_delete_post(self, user_id: uuid=USER_UUID, post_id: uuid=POST_UUID, status_code=200):
-        return
-        response = requests.delete(f"{self.BASE_URL}", headers={"X-user-id": user_id, "X-post-id": post_id}, json={"id": post_id})
+        response = requests.delete(f"{self.BASE_URL}", headers={"X-user-id": user_id, "X-post-id": post_id})
         self.assertEqual(status_code, response.status_code)
         try:
             return response.json()

@@ -8,8 +8,17 @@ import io.quarkus.mongodb.panache.PanacheMongoRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+
+
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 @ApplicationScoped
 public class PostSearchRepository implements PanacheMongoRepositoryBase<PostContentEntity, UUID> {
@@ -17,11 +26,12 @@ public class PostSearchRepository implements PanacheMongoRepositoryBase<PostCont
     @Inject
     ElasticsearchClient elasticsearchClient;
 
-    public List<PostEntity> searchPost(List<String> wordsList, List<String> hashtagsList) {
+    public List<PostEntity> searchPosts(List<String> wordList, List<String> hashtagList) throws IOException {
 
-        //#TODO: Implement the elastic search logic here
-        // You got this Alex!! :)
+        if (wordList.isEmpty() && hashtagList.isEmpty()) {
+            return List.of();
+        }
 
-        return null;
+        return List.of();
     }
 }

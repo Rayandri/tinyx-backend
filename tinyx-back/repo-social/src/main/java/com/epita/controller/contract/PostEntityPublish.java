@@ -1,4 +1,4 @@
-package com.epita.repository.entity;
+package com.epita.controller.contract;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

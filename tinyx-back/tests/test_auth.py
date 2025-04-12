@@ -18,7 +18,7 @@ class TestAuthController(unittest.TestCase):
             return response
 
     def test_delete(self, user_id: uuid=uuid.uuid4(), status_code: int=200):
-        response = requests.post(f"{self.BASE_URL}/delete", headers={"X-user-id": user_id})
+        response = requests.post(f"{self.BASE_URL}/delete", headers={"X-user-id": str(user_id)})
         self.assertEqual(status_code, response.status_code)
         try:
             return response.json()
@@ -37,7 +37,7 @@ class TestAuthController(unittest.TestCase):
 
     def test_update_password(self, user_id: uuid=uuid.uuid4(), password: str="newpassword", status_code: int=200):
         payload = {"password": password}
-        response = requests.post(f"{self.BASE_URL}/update/password", headers={"X-user-id": user_id}, json=payload)
+        response = requests.post(f"{self.BASE_URL}/update/password", headers={"X-user-id": str(user_id)}, json=payload)
         self.assertEqual(status_code, response.status_code)
         try:
             return response.json()
