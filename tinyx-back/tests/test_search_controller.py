@@ -45,4 +45,12 @@ class TestSearchController(unittest.TestCase):
         except:
             return response
     
-    
+    def test_search_post(self):
+        word = "test"
+        hastag = "#test"
+        response = requests.get(f"{self.BASE_URL}/posts", params={"words": word, "hashtags": hastag})
+        self.assertEqual(response.status_code, 200)
+        try:
+            return response.json
+        except:
+            return response

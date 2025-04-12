@@ -23,41 +23,6 @@ public class PostSearchRepository implements PanacheMongoRepositoryBase<PostCont
             return List.of();
         }
 
-        SearchRequest searchRequest = new SearchRequest("posts"); 
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-
-        
-        if (!wordList.isEmpty() && hashtagList.isEmpty()) {
-            sourceBuilder.query(QueryBuilders.boolQuery()
-                    .should(wordList.stream()
-                            .map(word -> QueryBuilders.matchQuery("content", word))
-                            .toArray(org.elasticsearch.index.query.QueryBuilder[]::new))
-            );
-        } else if (wordList.isEmpty() && !hashtagList.isEmpty()) {  
-            sourceBuilder.query(QueryBuilders.boolQuery()
-                    .must(hashtagList.stream()
-                            .map(hashtag -> QueryBuilders.matchQuery("content", hashtag))
-                            .toArray(org.elasticsearch.index.query.QueryBuilder[]::new))
-            );
-        } else if (!wordList.isEmpty() && !hashtagList.isEmpty()) {
-            sourceBuilder.query(QueryBuilders.boolQuery()
-                    .should(wordList.stream()
-                            .map(word -> QueryBuilders.matchQuery("content", word))
-                            .toArray(org.elasticsearch.index.query.QueryBuilder[]::new))
-                    .must(hashtagList.stream()
-                            .map(hashtag -> QueryBuilders.matchQuery("content", hashtag))
-                            .toArray(org.elasticsearch.index.query.QueryBuilder[]::new))
-            );
-        }
-
-        searchRequest.source(sourceBuilder);
-
-        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-
-        return response.hits()
-            .hits()
-            .stream()
-            .map(hit -> hit.source())
-            .toList();
+        return List.of();
     }
 }
