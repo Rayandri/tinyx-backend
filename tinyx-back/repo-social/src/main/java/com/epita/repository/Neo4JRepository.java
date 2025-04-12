@@ -38,9 +38,13 @@ public class Neo4JRepository {
             RETURN f.nodeId AS followerId
         """.formatted(relationType);
 
+        if (userId == null) {
+            return List.of();
+        }
+
         try (Session session = driver.session()) {
             List<String> followers = session.executeRead(tx ->
-                    tx.run(query, Values.parameters("userId", userId))
+                    tx.run(query, Values.parameters("userId", userId.toString()))
                             .list(record -> record.get("followerId").asString())
             );
             return followers;
@@ -53,9 +57,13 @@ public class Neo4JRepository {
             RETURN f.nodeId AS followerId
         """.formatted(relationType);
 
+        if (userId == null) {
+            return List.of();
+        }
+
         try (Session session = driver.session()) {
             List<String> followers = session.executeRead(tx ->
-                    tx.run(query, Values.parameters("userId", userId))
+                    tx.run(query, Values.parameters("userId", userId.toString()))
                             .list(record -> record.get("followerId").asString())
             );
             return followers;
@@ -81,10 +89,16 @@ public class Neo4JRepository {
     }
 
     public List<String> getAllFollowers(UUID userId) {
+        if (userId == null) {
+            return List.of();
+        }
         return getAllRelationReverse(userId, "FOLLOWS");
     }
 
     public List<String> getAllFollowed(UUID userId) {
+        if (userId == null) {
+            return List.of();
+        }
         return getAllRelation(userId, "FOLLOWS");
     }
 
@@ -93,10 +107,12 @@ public class Neo4JRepository {
             MATCH (u:User {nodeId: $userId})-[r:LIKES]->(p:Post)
             RETURN p.nodeId AS postId
         """;
-
+        if (userId == null) {
+            return List.of();
+        }
         try (Session session = driver.session()) {
             return session.executeRead(tx ->
-                    tx.run(query, Values.parameters("userId", userId))
+                    tx.run(query, Values.parameters("userId", userId.toString()))
                             .list(record -> record.get("postId").asString())
             );
         }
@@ -107,10 +123,12 @@ public class Neo4JRepository {
             MATCH (u:User)-[r:LIKES]->(p:Post {nodeId: $postId})
             RETURN u.nodeId AS userId
         """;
-
+        if (postId == null) {
+            return List.of();
+        }
         try (Session session = driver.session()) {
             return session.executeRead(tx ->
-                    tx.run(query, Values.parameters("postId", postId))
+                    tx.run(query, Values.parameters("postId", postId.toString()))
                             .list(record -> record.get("userId").asString())
             );
         }

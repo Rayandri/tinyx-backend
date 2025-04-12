@@ -5,10 +5,12 @@ from test_user_controller import TestUserController
 from test_user_timeline import TestUserTimeline
 import random
 import string
+import uuid
+import requests
 
 #Ceci est un exemple de scénario (il marche pas car la il y a pas de user créé dans la db mais c'est la structure)
 
-class TestSimpleScenario(unittest.TestCase):
+class TestUserScenario(unittest.TestCase):
 
     # Initialisation des objets de test
     auth_controller = TestAuthController()
@@ -23,18 +25,29 @@ class TestSimpleScenario(unittest.TestCase):
     Scénario qui créé un user, verifie qu'aucun post de ce user n'existe, change son password puis supprime le user
     """
     def test_scenario_1(self):
-        # Étape 1 : Créer un user
-        user1_id = self.auth_controller.test_create_user(self.random_username_generator(), "password")["id"]
-        user2_id = self.auth_controller.test_create_user(self.random_username_generator(), "password")["id"]
-        # Étape 2 : Publier un poste
-        post_id = self.post_controller.test_add_post(user1_id, "This is a test poste", media="", repost="", replyto="")["id"]
-        # Étape 3 :
-        self.user_controller.test_add_like(post_id, user2_id)
-        # Étape 4 : Récupérer le timeline
-        self.user_timeline.test_get_full_timeline(user1_id)
-        # Étape 5 : Supprimer les utilisateurs
-        self.auth_controller.test_delete(user1_id)
-        self.auth_controller.test_delete(user2_id)
+        # Création d'un utilisateur
+        username = self.random_username_generator()
+        response = self.auth_controller.test_create_user(username=username, password="password")
+        user_id = response["id"]
+
+        # Vérification qu'aucun post n'existe pour cet utilisateur
+#        response = self.post_controller.test_get_user_posts(user_id=user_id)
+#        self.assertEqual(len(response), 0)
+
+        # Ajout d'un post
+        response = self.post_controller.test_add_post(user_id=user_id, content="This is a test post")
+
+        # Vérification que le post a été ajouté à la timeline de l'utilisateur
+        response = self.user_timeline.test_get_full_timeline(uuid=user_id)
+        print(response)
+
+        # Vérification du id du post de la timeline
+        post_id = response["entries"][0]["postId"]
+        response = self.post_controller.test_get_post(post_id=post_id)
+        self.assertEqual(response["id"], post_id)
+        self.assertEqual(response["content"], "This is a test post")
+
+
 if __name__ == "__main__":
     unittest.main()
 
